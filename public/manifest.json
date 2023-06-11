@@ -1,0 +1,8 @@
+{
+  "short_name": "Land Development",
+  "name": "Vishwaraj Enterprise Land Development",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
