@@ -1,20 +1,23 @@
 import './App.css';
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { SideNavBar } from "./components/utils/SideNavBar";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import {SideNavBar} from "./components/utils/SideNavBar";
 import SiteRegistration from "./components/pages/SiteRegistration";
 import Login from "./components/pages/Login";
 import User from "./context/user";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import DriverRegistration from "./components/pages/DriverRegistration";
 import Error404 from '../src/assects/img/Error404.jpg'
 import Cookies from 'js-cookie';
 import DieselPurchase from "./components/pages/DieselPurchase";
 import VehicleRegistration from "./components/pages/VehicleRegistration";
 import VehicleWorkEntry from "./components/pages/VehicleWorkEntry";
+import Drivers from "./components/pages/Reports/Drivers";
+import Vehicles from "./components/pages/Reports/Vehicles";
+import WorkDone from "./components/pages/Reports/WorkDone";
 
 function App() {
     const [login, setLogin] = useState(false);
-    const [user, setUser] = useState({ name: "user" });
+    const [user, setUser] = useState({name: "user"});
 
     const updateUser = (newUser) => {
         setUser(newUser);
@@ -23,7 +26,7 @@ function App() {
 
     const handleLogout = () => {
         Cookies.remove('loginCredentials');
-        setUser({ name: "user", login: false });
+        setUser({name: "user", login: false});
         setLogin(false);
 
     };
@@ -40,28 +43,27 @@ function App() {
     return (
         <User.Provider value={[user, setUser]}>
             <BrowserRouter>
-                {login&&<SideNavBar handleLogout={handleLogout} />}
+                {login && <SideNavBar handleLogout={handleLogout}/>}
                 <Routes>
                     {!login ? (
                         <>
-                            <Route path="/" element={<Login update={updateUser} />} />
-                            <Route path="/login" element={<Login />} />
-                            <Route path="/*" element={<Navigate to="/" />} />
+                            <Route path="/" element={<Login update={updateUser}/>}/>
+                            <Route path="/login" element={<Login/>}/>
                         </>
                     ) : (
                         <>
 
-                            <Route path="/" element={<SiteRegistration />} />
-                            <Route path="/SiteRegistration" element={<SiteRegistration />} />
-                            <Route path="/DriverRegistration" element={<DriverRegistration />} />
-                            <Route path="/DieselPurchase" element={<DieselPurchase />} />
-                            <Route path="/VehicleRegistration" element={<VehicleRegistration />} />
-                            <Route path="/VehicleWorkEntry" element={<VehicleWorkEntry />} />
-                            <Route path="/p11" element={<div>p11</div>} />
-                            <Route path="/p12" element={<div>p12</div>} />
-                            <Route path="/p2" element={<div>p2</div>} />
-                            <Route path="/*" element={<Navigate to="/" />} />
-                            <Route path="*" element={<div className={'container d-flex justify-content-center align-content-around mt-md-3'}>
+                            <Route path="/" element={<SiteRegistration/>}/>
+                            <Route path="/SiteRegistration" element={<SiteRegistration/>}/>
+                            <Route path="/DriverRegistration" element={<DriverRegistration/>}/>
+                            <Route path="/DieselPurchase" element={<DieselPurchase/>}/>
+                            <Route path="/VehicleRegistration" element={<VehicleRegistration/>}/>
+                            <Route path="/VehicleWorkEntry" element={<VehicleWorkEntry/>}/>
+                            <Route path="/Drivers" element={<Drivers/>}/>
+                            <Route path="/Vehicles" element={<Vehicles/>}/>
+                            <Route path="/WorkDone" element={<WorkDone/>}/>
+                            <Route path="*" element={<div
+                                className={'container d-flex justify-content-center align-content-around mt-md-3'}>
                                 <div className={'col-md-8'}>
                                     <img className={'img-fluid w-auto'} src={Error404} alt={'error 404'}/>
                                 </div>

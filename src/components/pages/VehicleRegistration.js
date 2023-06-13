@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Header from "../utils/Header";
 import axios from "axios";
-import data from "bootstrap/js/src/dom/data";
 
 const VehicleRegistration = () => {
     const [showWarning, setShowWarning] = useState(false);
@@ -45,7 +44,6 @@ const VehicleRegistration = () => {
         }
 
     }
-
 
     useEffect(() => {
         axios.get('http://localhost:8081/getDrivers')

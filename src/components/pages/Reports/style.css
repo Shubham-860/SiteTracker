@@ -1,0 +1,35 @@
+
+.element {
+    color: blue;
+    animation: color-change 1s;
+}
+
+@keyframes color-change {
+    0% {
+        font-size: 30px
+    }
+    50% {
+        font-size: 60px
+    }
+    100% {
+        font-size: 0px
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .abc {
+        display: none;
+    }
+}
+
+.deleteIcon {
+    border-radius: 100px;
+    color: red;
+    font-size: 35px;
+    padding: 3px;
+}
+
+.deleteIcon:hover {
+    transition: box-shadow 0.3s;
+    box-shadow: 0 0 10px;
+}

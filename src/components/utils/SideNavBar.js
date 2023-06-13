@@ -1,9 +1,7 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import {Menu, menuClasses, MenuItem, Sidebar, SubMenu} from 'react-pro-sidebar';
-import {NavLink, useLocation, useNavigate} from 'react-router-dom';
+import {NavLink, useLocation} from 'react-router-dom';
 import {BsCardChecklist, BsList, BsXLg} from 'react-icons/bs';
-import User from "../../context/user";
-import VehicleWorkEntry from "../pages/VehicleWorkEntry";
 
 const SlideBarBtn = ({toggled, setToggled}) => {
     return (
@@ -17,12 +15,9 @@ const SlideBarBtn = ({toggled, setToggled}) => {
 
 const SideNavBar = ({handleLogout}) => {
     const [toggled, setToggled] = useState(false);
-    const [collapsed, setCollapsed] = useState(false);
     const iconSize = 25;
     const location = useLocation();
     console.log(location.pathname);
-    const [user, setUser] = useContext(User);
-    const navigate = useNavigate();
     const hide = () => {
         setToggled(!toggled);
     };
@@ -107,16 +102,21 @@ const SideNavBar = ({handleLogout}) => {
                                       component={<NavLink to="/VehicleWorkEntry"/>}>
                                 Vehicle Work Entry
                             </MenuItem>
-                            <SubMenu label="p" icon={<BsCardChecklist size={iconSize}/>}>
-                                <MenuItem onClick={hide} component={<NavLink to="/p11"/>}
-                                          icon={<BsCardChecklist size={iconSize}/>}>
-                                    p1
+
+
+                            <SubMenu label="Records" icon={<BsCardChecklist size={iconSize}/>}>
+                                <MenuItem onClick={hide} component={<NavLink to="/Drivers"/>}>
+                                    Drivers
                                 </MenuItem>
-                                <MenuItem onClick={hide} component={<NavLink to="/p12"/>}
-                                          icon={<BsCardChecklist size={iconSize}/>}>
-                                    P2
+                                <MenuItem onClick={hide} component={<NavLink to="/Vehicles"/>}>
+                                    Vehicles
+                                </MenuItem>
+                                <MenuItem onClick={hide} component={<NavLink to="/WorkDone"/>}>
+                                    Work Done
                                 </MenuItem>
                             </SubMenu>
+
+
                         </div>
                         <div className="d-flex justify-content-center mb-4">
                             <button className="btn btn-outline-light w-75" onClick={handleLogout}>
