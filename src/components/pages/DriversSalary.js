@@ -145,10 +145,10 @@ const DriversSalary = () => {
             return accumulator;
         }, []);
 
-        setPendingSalary(pendingSalaryData);
+        setPendingSalary(pendingSalaryData.filter(item => !paidSalary.some(i => (i.DriverName === item.DriverName) && (getMonthYear(i.Month) === (date.getFullYear() + '/' + date.getMonth())))));
     }, [selectedDate, workDone]);
-    // console.log('pendingSalary')
-    // console.log(pendingSalary)
+    console.log('pendingSalary')
+    console.log(pendingSalary)
     return (<>
         <Header title={'Drivers salary'}/>
 
@@ -239,6 +239,7 @@ const DriversSalary = () => {
                                    className="form-control" placeholder="Amount To Pay"
                                    aria-label="Amount To Pay" disabled/>
                         </div>
+
                         {/*  Total Hours */}
                         <div className="col-md-4">
                             <label htmlFor="input4" className="form-label">Total Hours</label>
@@ -246,9 +247,11 @@ const DriversSalary = () => {
                                    className="form-control" placeholder="Total Hours"
                                    aria-label="Total Hours" disabled/>
                         </div>
-                    </div>
-                    <div className={'row g3 my-3'}>
 
+                    </div>
+
+                    {/*submit */}
+                    <div className={'row g3 my-3'}>
                         <div className="col-12 d-flex justify-content-center">
                             <button type="submit" className="btn btn-outline-info btn-lg"
                                     onClick={onSubmitHandle}>Submit
@@ -260,32 +263,32 @@ const DriversSalary = () => {
             </>)}
 
 
-            {// pendingSalary === null ? (
-                pendingSalary.length !== 0 ? (<>
-                    <h5 className={'my-4'}>Pending salary drivers</h5>
-                    <div className={''}>
-                        <div className={'card m-5'}>
-                            <DataTable
-                                value={pendingSalary.filter(item => !paidSalary.some(i => (i.DriverName === item.DriverName) && (getMonthYear(i.Month) === (date.getFullYear() + '/' + date.getMonth()))))}
-                                removableSort tableStyle={{minWidth: '50rem'}} filters={filters}
-                                header={header} emptyMessage="No customers found." rows={5} resizableColumns
-                                stripedRows paginator rowsPerPageOptions={[5, 10, 25, 50]}
-                                globalFilterFields={['DriverName', 'AmountToPay', 'TotalHours']}
-                            >
-                                <Column field={'DriverName'} header={'Driver Name'} sortable/>
-                                <Column field={'TotalHours'} header={'Total Work Hours'} sortable/>
-                                <Column field={'AmountToPay'} header={'Amount To Pay'} sortable/>
-                            </DataTable>
+            {pendingSalary.length !== 0 ? (
+                    pendingSalary.length !== 0 ? (<>
+                        <h5 className={'my-4'}>Pending salary drivers</h5>
+                        <div className={''}>
+                            <div className={'card m-5'}>
+                                <DataTable
+                                    value={pendingSalary}
+                                    removableSort tableStyle={{minWidth: '50rem'}} filters={filters}
+                                    header={header} emptyMessage="No customers found." rows={5} resizableColumns
+                                    stripedRows paginator rowsPerPageOptions={[5, 10, 25, 50]}
+                                    globalFilterFields={['DriverName', 'AmountToPay', 'TotalHours']}
+                                >
+                                    <Column field={'DriverName'} header={'Driver Name'} sortable/>
+                                    <Column field={'TotalHours'} header={'Total Work Hours'} sortable/>
+                                    <Column field={'AmountToPay'} header={'Amount To Pay'} sortable/>
+                                </DataTable>
+                            </div>
                         </div>
-                    </div>
-                </>) : (
-                    <h3 className={'mt-5'}><span className={'container border-2 border-bottom'}>All personnel have been issued their respective salary payments</span>
-                    </h3>)
-                // )
-                //     : (
-                //     <h3 className={'mt-5'}><span className={'container border-2 border-bottom'}>Please choose a month to view the salary records.</span>
-                //     </h3>
-                // )
+                    </>) : (
+                        <h3 className={'mt-5'}><span className={'container border-2 border-bottom'}>All personnel have been issued their respective salary payments</span>
+                        </h3>)
+                )
+                : (
+                    <h3 className={'mt-5'}><span className={'container border-2 border-bottom'}>Please choose a month to view the salary records.</span>
+                    </h3>
+                )
             }
         </div>
     </>);
