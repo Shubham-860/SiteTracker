@@ -60,7 +60,10 @@ const DriversSalary = () => {
                     severity: 'success', summary: 'Success', detail: 'Salary details added successfully', life: 3000
                 });
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                toast.current.show({severity: 'error', summary: 'Error', detail: 'Something went wrong', life: 3000});
+                console.log(err)
+            });
         setSalary({
             uid: '', DriverName: '', PayDay: '', Month: '', AmountToPay: '', TotalHours: '',
         });

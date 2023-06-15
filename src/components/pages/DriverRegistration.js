@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import Header from "../utils/Header";
 import axios from "axios";
+import {Toast} from 'primereact/toast';
 
 const DriverRegistration = () => {
     const [showWarning, setShowWarning] = useState(false);
@@ -14,6 +15,8 @@ const DriverRegistration = () => {
         RatePerHour: '',
         Remark: '',
     });
+    const toast = useRef(null);
+
     const handleChange = (e) => {
         setDriver({...driver, [e.target.name]: e.target.value});
     }
@@ -30,9 +33,15 @@ const DriverRegistration = () => {
                 .post('http://localhost:8081/addDriver', driver)
                 .then(res => {
                     console.log(res)
-                    alert('added')
+                    // alert('added')
+                    toast.current.show({
+                        severity: 'success', summary: 'Success', detail: 'Driver details added successfully', life: 3000
+                    });
                 })
-                .catch(err => console.log(err))
+                .catch(err => {
+                        toast.current.show({severity: 'error', summary: 'Error', detail: 'Something went wrong', life: 3000});
+                    console.log(err)
+                })
             setDriver({
                 DriverName: '',
                 DriverContact: '',
@@ -51,6 +60,7 @@ const DriverRegistration = () => {
     return (
         <>
             <Header title={'Driver Registration'}/>
+            <Toast ref={toast}/>
             <div className={'container mt-4 border-black'}>
 
                 {showWarning && (

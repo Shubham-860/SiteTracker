@@ -55,7 +55,10 @@ const SiteRegistration = () => {
                         toast.current.show({severity:'warn', summary: 'Warning', detail:'Message Content', life: 3000});
                     }
                 })
-                .catch(err => console.log(err))
+                .catch(err => {
+                    toast.current.show({severity: 'error', summary: 'Error', detail: 'Something went wrong', life: 3000});
+                    console.log(err)
+                })
 
 
         }

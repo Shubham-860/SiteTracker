@@ -101,6 +101,7 @@ const Drivers = () => {
                 .catch(error => {
                     console.log('error')
                     console.log(error)
+                    showError()
                 })
 
         } catch (e) {

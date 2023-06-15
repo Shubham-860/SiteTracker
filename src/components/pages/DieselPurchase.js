@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Header from "../utils/Header";
 import axios from "axios";
-import { v4 as uuidv4 } from 'uuid';
-const DieselPurchase = () => {
+import {v4 as uuidv4} from 'uuid';
+import {Toast} from 'primereact/toast';
 
+const DieselPurchase = () => {
     const [pump, setPump] = useState({
         date: '',
         PumpName: '',
@@ -12,10 +13,11 @@ const DieselPurchase = () => {
         Rate: '',
         Quantity: '',
         Total: '',
-        uid:uuidv4()
+        uid: uuidv4()
     });
     const [showWarning, setShowWarning] = useState(false);
     const [stockDiesel, setStockDiesel] = useState(null);
+    const toast = useRef(null);
 
     const handleChange = (e) => {
         setPump({...pump, [e.target.name]: e.target.value});
@@ -30,12 +32,26 @@ const DieselPurchase = () => {
         } else {
             console.log(pump)
             axios
-                .post('http://localhost:8081/fuelPurchase', pump)
+                .post('http://localhost:8081/fuelPurchase', {
+                    ...pump,
+                    from: 'Vishwaraj Enterprise',
+                    to: pump.PumpName,
+                    subject: 'Purchase Fuel',
+                    type: 'Fuel',
+                })
                 .then(res => {
                     console.log(res)
-                    alert('added')
+                    toast.current.show({
+                        severity: 'success', summary: 'Success', detail: 'Purchase info added successfully', life: 3000
+                    });
+                    // alert('added')
                 })
-                .catch(err => console.log(err))
+                .catch(err => {
+                    toast.current.show({
+                        severity: 'error', summary: 'Error', detail: 'Something went wrong', life: 3000
+                    });
+                    console.log(err)
+                })
             setPump({
                 date: '',
                 PumpName: '',
@@ -44,7 +60,7 @@ const DieselPurchase = () => {
                 Rate: '',
                 Quantity: '',
                 Total: '',
-                uid:uuidv4()
+                uid: uuidv4()
             })
         }
     }
@@ -95,6 +111,8 @@ const DieselPurchase = () => {
     return (
         <>
             <Header title={'Diesel Purchase'}/>
+            <Toast ref={toast}/>
+
             <div className={'container mt-4 border-black'}>
 
                 {showWarning && (
@@ -173,7 +191,7 @@ const DieselPurchase = () => {
                                    aria-label="Total Amount Paid" required={true} value={pump.Total}
                                    onChange={handleChange} disabled/>
                         </div>
-                            <p>Remaining Diesel : {stockDiesel} liters</p>
+                        <p>Remaining Diesel : {stockDiesel} liters</p>
 
                     </div>
 

@@ -6,10 +6,10 @@ import axios from "axios";
 import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
 import {BsFileEarmarkExcel, BsFileEarmarkPdf, BsTrash} from "react-icons/bs";
-import {Toast} from 'primereact/toast';
 import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';
 import {FilterMatchMode} from 'primereact/api';
+import {Toast} from 'primereact/toast';
 import Header from "../../utils/Header";
 
 const Vehicles = () => {
@@ -97,6 +97,7 @@ const Vehicles = () => {
                 .catch(error => {
                     console.log('error')
                     console.log(error)
+                    showError()
                 })
             getDrivers()
         } catch (e) {

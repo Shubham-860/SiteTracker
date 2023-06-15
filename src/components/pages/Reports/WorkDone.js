@@ -105,6 +105,7 @@ const WorkDone = () => {
                 .catch(error => {
                     console.log('error')
                     console.log(error)
+                    showError()
                 })
             getWorkDone()
         } catch (e) {
