@@ -10,6 +10,7 @@ import {Toast} from 'primereact/toast';
 import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';
 import {FilterMatchMode} from 'primereact/api';
+import Header from "../../utils/Header";
 
 const Vehicles = () => {
     const [Vehicles, setVehicles] = useState([]);
@@ -123,19 +124,18 @@ const Vehicles = () => {
             })
             .then(error => console.log(error))
     }
-    const header = (<div className="d-flex align-items-center justify-content-between gap-2">
-        <div>
+    const header = (<div className="row">
+        <div className={'col-md-4 '}>
             <Button className={'mx-2'} type="button" icon={<BsFileEarmarkExcel/>} severity="success" rounded
                     onClick={exportExcel}
-
                     data-pr-tooltip="XLS"/>
             <Button className={'x-2'} type="button" icon={<BsFileEarmarkPdf/>} severity="warning" rounded
                     onClick={exportPdf}
                     data-pr-tooltip="PDF"/>
         </div>
 
-        <h2>Drivers</h2>
-        <div>
+        <h2 className={'col-md-4 text-center'}>Work Done Information</h2>
+        <div className={'col-md-4 text-end'}>
             <InputText
                 value={globalFilterValue}
                 onChange={onGlobalFilterChange}
@@ -147,7 +147,8 @@ const Vehicles = () => {
         getDrivers()
     }, []);
 
-    return (<div className={'container-fluid p-5'}>
+    return (<div className={'container-fluid'}>
+        <Header title={'Vehicles Report'}/>
         <Toast ref={toast}/>
         <div className={'card m-5'}>
             <DataTable value={Vehicles} removableSort tableStyle={{minWidth: '50rem'}} filters={filters}

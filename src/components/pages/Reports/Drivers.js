@@ -10,7 +10,7 @@ import {Toast} from 'primereact/toast';
 import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';
 import {FilterMatchMode} from 'primereact/api';
-import ConfirmDeleteDialogBox from "./ConfirmDeleteDialogBox";
+import Header from "../../utils/Header";
 
 const Drivers = () => {
     const [drivers, setDrivers] = useState([]);
@@ -111,14 +111,14 @@ const Drivers = () => {
     const deleteBody = (rawData) => {
         return (
             <div className="flex justify-content-center" key={rawData.iddrivers}>
-            <BsTrash className={'deleteIcon'} onClick={() => {
-                deleteField(rawData.iddrivers)
+                <BsTrash className={'deleteIcon'} onClick={() => {
+                    deleteField(rawData.iddrivers)
 
-            }}/>
+                }}/>
 
                 {/*<ConfirmDeleteDialogBox from={'deleteDriver'} id={rawData.iddrivers} refresh={getDrivers}  />*/}
 
-        </div>)
+            </div>)
     }
     const joinDate = (rawData) => {
         const date = new Date(rawData.JoinDate)
@@ -132,19 +132,18 @@ const Drivers = () => {
             })
             .then(error => console.log(error))
     }
-    const header = (<div className="d-flex align-items-center justify-content-between gap-2">
-        <div>
+    const header = (<div className="row">
+        <div className={'col-md-4 '}>
             <Button className={'mx-2'} type="button" icon={<BsFileEarmarkExcel/>} severity="success" rounded
                     onClick={exportExcel}
-
                     data-pr-tooltip="XLS"/>
             <Button className={'x-2'} type="button" icon={<BsFileEarmarkPdf/>} severity="warning" rounded
                     onClick={exportPdf}
                     data-pr-tooltip="PDF"/>
         </div>
 
-        <h2>Drivers</h2>
-        <div>
+        <h2 className={'col-md-4 text-center'}>Work Done Information</h2>
+        <div className={'col-md-4 text-end'}>
             <InputText
                 value={globalFilterValue}
                 onChange={onGlobalFilterChange}
@@ -153,12 +152,12 @@ const Drivers = () => {
         </div>
     </div>);
 
-
     useEffect(() => {
         getDrivers()
     }, []);
 
-    return (<div className={'container-fluid p-5'}>
+    return (<div className={'container-fluid'}>
+            <Header title={'Drivers Report'}/>
             <Toast ref={toast}/>
             <div className={'card m-5'}>
                 <DataTable value={drivers} removableSort tableStyle={{minWidth: '50rem'}} filters={filters}

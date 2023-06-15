@@ -4,13 +4,14 @@ import axios from "axios";
 import {Dropdown} from 'primereact/dropdown';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
+import {Toast} from 'primereact/toast';
 
-const VehicleWorkEntry = () => {
+const WorkEntry = () => {
+    const [stockDiesel, setStockDiesel] = useState();
     const [showWarning, setShowWarning] = useState(false);
     const [vehicles, setVehicles] = useState([]);
-    const [drivers, setDrivers] = useState([]);
     const [sites, setSites] = useState([]);
-    const [stockDiesel, setStockDiesel] = useState();
+    const [drivers, setDrivers] = useState([]);
     const [work, setWork] = useState({
         VehicleNumber: '',
         DriverName: '',
@@ -25,24 +26,13 @@ const VehicleWorkEntry = () => {
         TotalPayableHours: '8',
         AmountToPay: '',
     });
-    // `VehicleNumber`,`DriverName`,`SiteName`,`WorkDate`,`StartTime`,`EndTime`,`WorkingStatus`,`Remark`,`DieselConsumption`,`RatePerHour`,`TotalPayableHours`,`AmountToPay`
-    // VehicleNumber
-    // DriverName
-    // SiteName
-    // WorkDate
-    // StartTime
-    // EndTime
-    // WorkingStatus
-    // Remark
-    // DieselConsumption
-    // RatePerHour
-    // TotalPayableHours
-    // AmountToPay
+
+
     const vehicleType = useRef();
     const vehicleAVG = useRef();
     const RPH = useRef();
     const driverContact = useRef();
-
+    const toast = useRef(null);
     const fetchData = async () => {
         try {
             const driversResponse = await axios.get('http://localhost:8081/getDrivers');
@@ -148,14 +138,20 @@ const VehicleWorkEntry = () => {
             setShowWarning(true);
         } else {
             console.log(work)
-            const  data = {...work,SiteName:work.SiteName.name,DriverName: work.DriverName.name,VehicleNumber:work.VehicleNumber.name}
+            const data = {
+                ...work,
+                SiteName: work.SiteName.name,
+                DriverName: work.DriverName.name,
+                VehicleNumber: work.VehicleNumber.name
+            }
             console.log(data)
             axios
-                .post('http://localhost:8081/addWorkDone',data)
+                .post('http://localhost:8081/addWorkDone', data)
                 .then(res => {
                     console.log(res)
-                    alert(res.data)
+                    // alert(res.data)
                     fetchData();
+                    toast.current.show({severity: 'success', summary: 'Success', detail: 'Work Entry details added successfully', life: 3000});
                 })
                 .catch(err => console.log(err))
             setWork({
@@ -178,12 +174,13 @@ const VehicleWorkEntry = () => {
 
 
     useEffect(() => {
-         fetchData();
+        fetchData();
     }, []);
 
 
     return (<>
-        <Header title={'Vehicle Work Entry'}/>
+        <Header title={'Work Entry'}/>
+        <Toast ref={toast}/>
         <div className={'container my-4 pb-5 border-black'}>
 
             {showWarning && (<div className="col-12 alert alert-warning" role="alert">
@@ -431,4 +428,4 @@ const VehicleWorkEntry = () => {
     </>);
 };
 
-export default VehicleWorkEntry;
+export default WorkEntry;

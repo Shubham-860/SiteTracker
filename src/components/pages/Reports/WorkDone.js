@@ -10,6 +10,7 @@ import {Toast} from 'primereact/toast';
 import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';
 import {FilterMatchMode} from 'primereact/api';
+import Header from "../../utils/Header";
 
 const WorkDone = () => {
     const [workDone, setWorkDone] = useState([]);
@@ -131,8 +132,8 @@ const WorkDone = () => {
             })
             .then(error => console.log(error))
     }
-    const header = (<div className="d-flex align-items-center justify-content-between gap-2">
-        <div>
+    const header = (<div className="row">
+        <div className={'col-md-4 '}>
             <Button className={'mx-2'} type="button" icon={<BsFileEarmarkExcel/>} severity="success" rounded
                     onClick={exportExcel}
                     data-pr-tooltip="XLS"/>
@@ -141,8 +142,8 @@ const WorkDone = () => {
                     data-pr-tooltip="PDF"/>
         </div>
 
-        <h2>Work Done Information</h2>
-        <div>
+        <h2 className={'col-md-4 text-center'}>Work Done Information</h2>
+        <div className={'col-md-4 text-end'}>
             <InputText
                 value={globalFilterValue}
                 onChange={onGlobalFilterChange}
@@ -153,7 +154,8 @@ const WorkDone = () => {
     useEffect(() => {
         getWorkDone()
     }, []);
-    return (<div className={'container-fluid p-5'}>
+    return (<div className={'container-fluid'}>
+            <Header title={'work Done Report'}/>
             <Toast ref={toast}/>
             <div className={'card m-5'}>
                 <DataTable value={workDone} removableSort tableStyle={{minWidth: '50rem'}} filters={filters}

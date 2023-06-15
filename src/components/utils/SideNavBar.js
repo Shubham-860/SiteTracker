@@ -98,20 +98,25 @@ const SideNavBar = ({handleLogout}) => {
                                       component={<NavLink to="/DieselPurchase"/>}>
                                 Diesel Purchase
                             </MenuItem>
-                            <MenuItem onClick={hide} active={location.pathname === "/VehicleWorkEntry"}
-                                      component={<NavLink to="/VehicleWorkEntry"/>}>
-                                Vehicle Work Entry
+                            <MenuItem onClick={hide} active={location.pathname === "/WorkEntry"}
+                                      component={<NavLink to="/WorkEntry"/>}>
+                                WorkEntry
+                            </MenuItem>
+
+                            <MenuItem onClick={hide} active={location.pathname === "/DriversSalary"}
+                                      component={<NavLink to="/DriversSalary"/>}>
+                                DriversSalary
                             </MenuItem>
 
 
                             <SubMenu label="Records" icon={<BsCardChecklist size={iconSize}/>}>
-                                <MenuItem onClick={hide} component={<NavLink to="/Drivers"/>}>
+                                <MenuItem onClick={hide} component={<NavLink to="/Drivers"/>} active={location.pathname === "/DriversSalaryDrivers"}>
                                     Drivers
                                 </MenuItem>
-                                <MenuItem onClick={hide} component={<NavLink to="/Vehicles"/>}>
+                                <MenuItem onClick={hide} component={<NavLink to="/Vehicles"/>} active={location.pathname === "/Vehicles"}>
                                     Vehicles
                                 </MenuItem>
-                                <MenuItem onClick={hide} component={<NavLink to="/WorkDone"/>}>
+                                <MenuItem onClick={hide} component={<NavLink to="/WorkDone"/>} active={location.pathname === "/WorkDone"}>
                                     Work Done
                                 </MenuItem>
                             </SubMenu>

@@ -10,10 +10,11 @@ import Error404 from '../src/assects/img/Error404.jpg'
 import Cookies from 'js-cookie';
 import DieselPurchase from "./components/pages/DieselPurchase";
 import VehicleRegistration from "./components/pages/VehicleRegistration";
-import VehicleWorkEntry from "./components/pages/VehicleWorkEntry";
+import WorkEntry from "./components/pages/WorkEntry";
 import Drivers from "./components/pages/Reports/Drivers";
 import Vehicles from "./components/pages/Reports/Vehicles";
 import WorkDone from "./components/pages/Reports/WorkDone";
+import DriversSalary from "./components/pages/DriversSalary";
 
 function App() {
     const [login, setLogin] = useState(false);
@@ -48,7 +49,9 @@ function App() {
                     {!login ? (
                         <>
                             <Route path="/" element={<Login update={updateUser}/>}/>
-                            <Route path="/login" element={<Login/>}/>
+                            <Route path="/login" element={<Login/>} update={updateUser}/>
+                            {/*<Route path="/*" element={<Navigate to="/" />} />*/}
+
                         </>
                     ) : (
                         <>
@@ -58,10 +61,11 @@ function App() {
                             <Route path="/DriverRegistration" element={<DriverRegistration/>}/>
                             <Route path="/DieselPurchase" element={<DieselPurchase/>}/>
                             <Route path="/VehicleRegistration" element={<VehicleRegistration/>}/>
-                            <Route path="/VehicleWorkEntry" element={<VehicleWorkEntry/>}/>
+                            <Route path="/WorkEntry" element={<WorkEntry/>}/>
                             <Route path="/Drivers" element={<Drivers/>}/>
                             <Route path="/Vehicles" element={<Vehicles/>}/>
                             <Route path="/WorkDone" element={<WorkDone/>}/>
+                            <Route path="/DriversSalary" element={<DriversSalary/>}/>
                             <Route path="*" element={<div
                                 className={'container d-flex justify-content-center align-content-around mt-md-3'}>
                                 <div className={'col-md-8'}>

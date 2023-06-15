@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Header from "../utils/Header";
 import axios from "axios";
+import {Toast} from 'primereact/toast';
 
 const VehicleRegistration = () => {
     const [showWarning, setShowWarning] = useState(false);
@@ -13,6 +14,9 @@ const VehicleRegistration = () => {
         VehicleAVG: '',
         Remark: ''
     });
+
+    const toast = useRef(null);
+
     const handleChange = (e) => {
         setVehicle({...vehicle, [e.target.name]: e.target.value});
     }
@@ -30,7 +34,8 @@ const VehicleRegistration = () => {
                 .post('http://localhost:8081/addVehicle', vehicle)
                 .then(res => {
                     console.log(res)
-                    alert('added')
+                    // alert('added')
+                    toast.current.show({severity: 'success', summary: 'Success', detail: 'Vehicles details added successfully', life: 3000});
                 })
                 .catch(err => console.log(err))
             setVehicle({
@@ -56,6 +61,7 @@ const VehicleRegistration = () => {
     return (
         <>
             <Header title={'Vehicle Registration'}/>
+            <Toast ref={toast}/>
             <div className={'container mt-4 border-black'}>
 
                 {showWarning && (

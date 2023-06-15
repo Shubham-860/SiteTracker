@@ -1,9 +1,9 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import '../../App.css'
 import axios from "axios";
 import Header from "../utils/Header";
 import User from "../../context/user";
-// import {useNavigate} from "react-router-dom";
+import {Toast} from 'primereact/toast';
 
 const SiteRegistration = () => {
     const [site, setSite] = useState({
@@ -18,7 +18,7 @@ const SiteRegistration = () => {
     });
     const [showWarning, setShowWarning] = useState(false);
     const [showWarning2, setShowWarning2] = useState(false);
-    // const navigate = useNavigate()
+    const toast = useRef(null);
     const handleChange = (e) => {
         setSite({...site, [e.target.name]: e.target.value});
     }
@@ -36,9 +36,9 @@ const SiteRegistration = () => {
                 .post('http://localhost:8081/addSite', site)
                 .then(res => {
                     console.log(res)
-
                     if (res.data !=="error Error: ER_DUP_ENTRY: Duplicate entry 'phaltan' for key 'site.SiteName_UNIQUE'"){
-                        alert('added');
+                        toast.current.show({severity: 'success', summary: 'Success', detail: 'Site details added successfully', life: 3000});
+                        // alert('added');
                         setSite({
                             OwnerName: '',
                             SiteName: '',
@@ -52,6 +52,7 @@ const SiteRegistration = () => {
                     }
                     else {
                         setShowWarning2(true)
+                        toast.current.show({severity:'warn', summary: 'Warning', detail:'Message Content', life: 3000});
                     }
                 })
                 .catch(err => console.log(err))
@@ -59,12 +60,12 @@ const SiteRegistration = () => {
 
         }
     };
-    const [user, setUser] = useContext(User);
 
 
     return (
         <>
             <Header title={'Site Registration'}/>
+            <Toast ref={toast}/>
             <div className={'container mt-4 border-black'}>
 
                 {showWarning && (
