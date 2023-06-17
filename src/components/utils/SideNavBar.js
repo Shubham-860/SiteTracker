@@ -1,8 +1,20 @@
 import React, {useState} from 'react';
 import {Menu, menuClasses, MenuItem, Sidebar, SubMenu} from 'react-pro-sidebar';
 import {NavLink, useLocation} from 'react-router-dom';
-import {BsCardChecklist, BsList, BsXLg} from 'react-icons/bs';
+import {
+    BsBuildingAdd,
+    BsCardChecklist,
+    BsCreditCard2Front,
+    BsList,
+    BsPersonPlus,
+    BsPersonVcard,
+    BsXLg
+} from 'react-icons/bs';
 import OwnerPayments from "../pages/Reports/OwnerPayments";
+import {AiOutlineAppstoreAdd} from "react-icons/ai";
+import {GrUserWorker} from "react-icons/gr";
+import {BiCar, BiGasPump, BiMoneyWithdraw} from "react-icons/bi";
+import {FaRegMoneyBillAlt} from "react-icons/fa";
 
 const SlideBarBtn = ({toggled, setToggled}) => {
     return (
@@ -84,41 +96,51 @@ const SideNavBar = ({handleLogout}) => {
                                 <h2>Vishwaraj Enterprise</h2>
                             </div>
 
-                            <MenuItem onClick={hide} active={location.pathname === "/SiteRegistration"}
-                                      component={<NavLink to="/SiteRegistration"/>}>
-                                Site Registration
-                            </MenuItem>
+                            <SubMenu label={'Registration'} icon={< AiOutlineAppstoreAdd size={iconSize}/>}>
 
-                            <MenuItem onClick={hide} active={location.pathname === "/DriverRegistration"}
-                                      component={<NavLink to="/DriverRegistration"/>}>
-                                Driver Registration
-                            </MenuItem>
+                                <MenuItem onClick={hide} icon={< BsBuildingAdd size={iconSize} />} active={location.pathname === "/SiteRegistration"}
+                                          component={<NavLink to="/SiteRegistration"/>}>
+                                    Site Registration
+                                </MenuItem>
 
-                            <MenuItem onClick={hide} active={location.pathname === "/VehicleRegistration"}
-                                      component={<NavLink to="/VehicleRegistration"/>}>
-                                Vehicle Registration
-                            </MenuItem>
+                                <MenuItem onClick={hide} icon={<BsPersonPlus size={iconSize} />} active={location.pathname === "/DriverRegistration"}
+                                          component={<NavLink to="/DriverRegistration"/>}>
+                                    Driver Registration
+                                </MenuItem>
 
-                            <MenuItem onClick={hide} active={location.pathname === "/WorkEntry"}
+                                <MenuItem onClick={hide} icon={<BiCar size={iconSize} />} active={location.pathname === "/VehicleRegistration"}
+                                          component={<NavLink to="/VehicleRegistration"/>}>
+                                    Vehicle Registration
+                                </MenuItem>
+
+
+                            </SubMenu>
+
+
+                            <MenuItem onClick={hide} icon={<BsPersonVcard size={iconSize}/>} active={location.pathname === "/WorkEntry"}
                                       component={<NavLink to="/WorkEntry"/>}>
                                 Work Entry
                             </MenuItem>
 
-                            <MenuItem onClick={hide} active={location.pathname === "/DieselPurchase"}
-                                      component={<NavLink to="/DieselPurchase"/>}>
-                                Diesel Purchase
-                            </MenuItem>
 
-                            <MenuItem onClick={hide} active={location.pathname === "/DriversSalary"}
-                                      component={<NavLink to="/DriversSalary"/>}>
-                                Drivers Salary
-                            </MenuItem>
+                            <SubMenu label={'Payments'} icon={< BsCreditCard2Front size={iconSize}/>}>
 
+                                <MenuItem onClick={hide} icon={< BiGasPump size={iconSize} />} active={location.pathname === "/DieselPurchase"}
+                                          component={<NavLink to="/DieselPurchase"/>}>
+                                    Diesel Purchase
+                                </MenuItem>
 
-                            <MenuItem onClick={hide} active={location.pathname === "/OwnerPayments"}
-                                      component={<NavLink to="/OwnerPayments"/>}>
-                                Owner Payments
-                            </MenuItem>
+                                <MenuItem onClick={hide} icon={<BiMoneyWithdraw size={iconSize}/>} active={location.pathname === "/DriversSalary"}
+                                          component={<NavLink to="/DriversSalary"/>}>
+                                    Drivers Salary
+                                </MenuItem>
+
+                                <MenuItem onClick={hide} icon={<FaRegMoneyBillAlt size={iconSize} />} active={location.pathname === "/OwnerPayments"}
+                                          component={<NavLink to="/OwnerPayments"/>}>
+                                    Owner Payments
+                                </MenuItem>
+
+                            </SubMenu>
 
 
                             <SubMenu label="Records" icon={<BsCardChecklist size={iconSize}/>}>
