@@ -57,7 +57,7 @@ const WorkDone = () => {
                 const doc = new jsPDF.default({
                     orientation: 'landscape', // Set the page orientation to landscape
                 });
-                doc.text('Drivers list', 10, 10); // Adjust the position of the text as needed
+                doc.text('Work done', 15, 10); // Adjust the position of the text as needed
                 doc.autoTable(exportColumns, workDone.map((driver) => {
                     const date3 = new Date(driver.WorkDate);
                     return {

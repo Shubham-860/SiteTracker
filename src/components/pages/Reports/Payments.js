@@ -12,8 +12,8 @@ import {InputText} from 'primereact/inputtext';
 import {FilterMatchMode} from 'primereact/api';
 import Header from "../../utils/Header";
 
-const Sites = () => {
-    const [sites, setSites] = useState([]);
+const Payments = () => {
+    const [payments, setPayments] = useState([]);
     const toast = useRef(null);
     const [filters, setFilters] = useState({
         global: {value: null, matchMode: FilterMatchMode.CONTAINS},
@@ -39,15 +39,13 @@ const Sites = () => {
     }
 
     const cols = [
-        {field: 'EntryDate', header: 'Date'},
-        {field: 'OwnerName', header: 'Owner Name'},
-        {field: 'SiteName', header: 'Site Name'},
-        {field: 'Contact', header: 'Contact'},
-        {field: 'Email', header: 'Email'},
-        {field: 'SiteAddress', header: 'Site Address'},
-        {field: 'Remark', header: 'Remark'},
-        {field: 'FixedAmount', header: 'Fixed Amount'},
-        {field: 'PaidAmount', header: 'Paid Amount'}
+        {field: 'date', header: 'Date'},
+        {field: 'from', header: 'From'},
+        {field: 'to', header: 'To'},
+        {field: 'amount', header: 'Amount'},
+        {field: 'subject', header: 'Subject'},
+        {field: 'type', header: 'Type'},
+        {field: 'uid', header: 'Transaction ID'}
     ];
 
     const exportColumns = cols.map((col) => ({title: col.header, dataKey: col.field}));
@@ -55,31 +53,26 @@ const Sites = () => {
     const exportPdf = () => {
         import('jspdf').then((jsPDF) => {
             import('jspdf-autotable').then(() => {
-                const doc = new jsPDF.default({
-                    orientation: 'landscape', // Set the page orientation to landscape
-                });
-                doc.text('Sites', 15, 10); // Adjust the position of the text as needed
-                doc.autoTable(exportColumns, sites.map((driver) => {
-                    const date3 = new Date(driver.EntryDate);
-                    return {
-                        ...driver,
-                        EntryDate: date3.toLocaleDateString(),
-                    };
+                const doc = new jsPDF.default(15, 0);
+                doc.text("Payments", 0, 0)
+                doc.autoTable(exportColumns, payments.map(driver => {
+                    const date = new Date(driver.date)
+                    return {...driver, date: date.toLocaleDateString()}
                 }));
-                doc.save('Sites.pdf');
+                doc.save('Payments.pdf');
             });
         });
     };
 
     const exportExcel = () => {
         import('xlsx').then((xlsx) => {
-            const worksheet = xlsx.utils.json_to_sheet(sites);
+            const worksheet = xlsx.utils.json_to_sheet(payments);
             const workbook = {Sheets: {data: worksheet}, SheetNames: ['data']};
             const excelBuffer = xlsx.write(workbook, {
                 bookType: 'xlsx', type: 'array'
             });
 
-            saveAsExcelFile(excelBuffer, 'Site');
+            saveAsExcelFile(excelBuffer, 'Payments');
         });
     };
 
@@ -120,7 +113,8 @@ const Sites = () => {
         return (
             <div className="flex justify-content-center" key={rawData.idpayments}>
                 <BsTrash className={'deleteIcon'} onClick={() => {
-                    deleteField(rawData.siteid)
+                    deleteField(rawData.idpayments)
+
                 }}/>
 
                 {/*<ConfirmDeleteDialogBox from={'deleteDriver'} id={rawData.iddrivers} refresh={getDrivers}  />*/}
@@ -128,14 +122,14 @@ const Sites = () => {
             </div>)
     }
     const date = (rawData) => {
-        const date = new Date(rawData.EntryDate)
+        const date = new Date(rawData.date)
         return (<div className={'p-0 m-0 text-center'}>{date.toLocaleDateString()} </div>)
     }
     const getAllPayment = () => {
-        axios.get('http://localhost:8081/getSite')
+        axios.get('http://localhost:8081/getAllPayment')
             .then((response) => {
-                setSites(response.data)
-                console.log(sites)
+                setPayments(response.data)
+                console.log(payments)
             })
             .then(error => console.log(error))
     }
@@ -149,7 +143,7 @@ const Sites = () => {
                     data-pr-tooltip="PDF"/>
         </div>
 
-        <h2 className={'col-md-4 text-center'}>Sites Information</h2>
+        <h2 className={'col-md-4 text-center'}>All Payments Information</h2>
         <div className={'col-md-4 text-end'}>
             <InputText
                 value={globalFilterValue}
@@ -164,21 +158,20 @@ const Sites = () => {
     }, []);
 
     return (<div className={'container-fluid'}>
-            <Header title={'Site Information'}/>
+            <Header title={'Payments'}/>
             <Toast ref={toast}/>
             <div className={'card m-5'}>
-                <DataTable value={sites} removableSort tableStyle={{minWidth: '50rem'}} filters={filters}
+                <DataTable value={payments} removableSort tableStyle={{minWidth: '50rem'}} filters={filters}
                            header={header} emptyMessage="No customers found." rows={5} resizableColumns
                            stripedRows paginator rowsPerPageOptions={[5, 10, 25, 50]}
                            globalFilterFields={['date', 'amount', 'from', 'to', 'subject', 'type', 'uid']}>
-                    <Column field={'EntryDate'} header={'Date'} sortable body={date}></Column>
-                    <Column field={'OwnerName'} header={'Owner Name'} sortable></Column>
-                    <Column field={'SiteName'} header={'Site Name'} sortable></Column>
-                    <Column field={'Contact'} header={'Contact'} sortable></Column>
-                    <Column field={'Email'} header={'Email'} sortable></Column>
-                    <Column field={'SiteAddress'} header={'Address'} sortable style={{ maxWidth: '20rem' }}></Column>
-                    <Column field={'FixedAmount'} header={'Fixed '} sortable></Column>
-                    <Column field={'PaidAmount'} header={'Paid '} sortable></Column>
+                    <Column field={'date'} header={'Date'} sortable body={date}></Column>
+                    <Column field={'from'} header={'From'} sortable></Column>
+                    <Column field={'to'} header={'To'} sortable></Column>
+                    <Column field={'amount'} header={'Amount'} sortable></Column>
+                    <Column field={'subject'} header={'Subject'} sortable></Column>
+                    <Column field={'type'} header={'Type'} sortable></Column>
+                    <Column field={'uid'} header={'Transaction ID'} sortable></Column>
                     {/*<Column field={'Remark'} header={'Remark'} style={{width: '25%', height: "auto"}} sortable*/}
                     {/*  body={remarkBody}></Column>*/}
                     <Column header={'Delete'} body={deleteBody}></Column>
@@ -189,4 +182,4 @@ const Sites = () => {
     );
 };
 
-export default Sites;
+export default Payments;

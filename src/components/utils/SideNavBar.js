@@ -10,11 +10,14 @@ import {
     BsPersonVcard,
     BsXLg
 } from 'react-icons/bs';
-import OwnerPayments from "../pages/Reports/OwnerPayments";
 import {AiOutlineAppstoreAdd} from "react-icons/ai";
-import {GrUserWorker} from "react-icons/gr";
 import {BiCar, BiGasPump, BiMoneyWithdraw} from "react-icons/bi";
 import {FaRegMoneyBillAlt} from "react-icons/fa";
+import SiteOwnerPayment from "../pages/Reports/SiteOwnerPayment";
+import Diesel from "../pages/Reports/Diesel";
+import Payments from "../pages/Reports/Payments";
+import Sites from "../pages/Reports/Sites";
+import Salarys from "../pages/Reports/Salarys";
 
 const SlideBarBtn = ({toggled, setToggled}) => {
     return (
@@ -152,6 +155,21 @@ const SideNavBar = ({handleLogout}) => {
                                 </MenuItem>
                                 <MenuItem onClick={hide} component={<NavLink to="/WorkDone"/>} active={location.pathname === "/WorkDone"}>
                                     Work Done
+                                </MenuItem>
+                                <MenuItem onClick={hide} component={<NavLink to="/SiteOwnerPayment"/>} active={location.pathname === "/SiteOwnerPayment"}>
+                                    Site Owner Payment
+                                </MenuItem>
+                                <MenuItem onClick={hide} component={<NavLink to="/Diesel"/>} active={location.pathname === "/Diesel"}>
+                                    Diesel
+                                </MenuItem>
+                                <MenuItem onClick={hide} component={<NavLink to="/Payments"/>} active={location.pathname === "/Payments"}>
+                                    Payments
+                                </MenuItem>
+                                <MenuItem onClick={hide} component={<NavLink to="/Sites"/>} active={location.pathname === "/Sites"}>
+                                    Sites
+                                </MenuItem>
+                                <MenuItem onClick={hide} component={<NavLink to="/Salarys"/>} active={location.pathname === "/Salarys"}>
+                                    Salarys
                                 </MenuItem>
                             </SubMenu>
 

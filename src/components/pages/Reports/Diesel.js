@@ -13,7 +13,7 @@ import {FilterMatchMode} from 'primereact/api';
 import Header from "../../utils/Header";
 
 const Diesel = () => {
-    const [purchases, setPurchases] = useState([]);
+    const [dieselPurchase, setDieselPurchase] = useState([]);
     const toast = useRef(null);
     const [filters, setFilters] = useState({
         global: {value: null, matchMode: FilterMatchMode.CONTAINS},
@@ -39,13 +39,14 @@ const Diesel = () => {
     }
 
     const cols = [
-        {field: 'iddrivers', header: 'Id'},
-        {field: 'DriverName', header: 'Name'},
-        {field: 'DriverContact', header: 'Contact'},
-        {field: 'DriverAddress', header: 'Address'},
-        {field: 'DrivingLicense', header: 'Driving License'},
-        {field: 'JoinDate', header: 'Joining Date'},
-        {field: 'RatePerHour', header: 'Rate Per Hour'}
+        {field: 'date', header: 'Date'},
+        {field: 'PumpName', header: 'Name'},
+        {field: 'PumpAddress', header: 'Address'},
+        {field: 'Remark', header: 'Remark'},
+        {field: 'Rate', header: 'Rate'},
+        {field: 'Quantity', header: 'Quantity'},
+        {field: 'Total', header: 'Total'},
+        {field: 'uid', header: 'Transaction ID'}
     ];
 
     const exportColumns = cols.map((col) => ({title: col.header, dataKey: col.field}));
@@ -54,25 +55,25 @@ const Diesel = () => {
         import('jspdf').then((jsPDF) => {
             import('jspdf-autotable').then(() => {
                 const doc = new jsPDF.default(0, 0);
-                doc.text("Drivers list", 0, 0)
-                doc.autoTable(exportColumns, purchases.map(driver => {
-                    const date = new Date(driver.JoinDate)
-                    return {...driver, JoinDate: date.toLocaleDateString()}
+                doc.text("Drivers list", 15, 0)
+                doc.autoTable(exportColumns, dieselPurchase.map(driver => {
+                    const date = new Date(driver.date)
+                    return {...driver, date: date.toLocaleDateString()}
                 }));
-                doc.save('drivers.pdf');
+                doc.save('Diesel Purchase.pdf');
             });
         });
     };
 
     const exportExcel = () => {
         import('xlsx').then((xlsx) => {
-            const worksheet = xlsx.utils.json_to_sheet(purchases);
+            const worksheet = xlsx.utils.json_to_sheet(dieselPurchase);
             const workbook = {Sheets: {data: worksheet}, SheetNames: ['data']};
             const excelBuffer = xlsx.write(workbook, {
                 bookType: 'xlsx', type: 'array'
             });
 
-            saveAsExcelFile(excelBuffer, 'drivers');
+            saveAsExcelFile(excelBuffer, 'DieselPurchase');
         });
     };
 
@@ -92,7 +93,7 @@ const Diesel = () => {
     const deleteField = async (id) => {
         // alert(id)
         try {
-            await axios.delete('http://localhost:8081/deleteDriver/' + Number(id))
+            await axios.delete('http://localhost:8081/iddieselPurchase/' + Number(id))
                 .then(res => {
                     console.log('res')
                     console.log(res)
@@ -107,13 +108,13 @@ const Diesel = () => {
         } catch (e) {
             showError()
         }
-        getDrivers()
+        getDieselPurchase()
     }
     const deleteBody = (rawData) => {
         return (
             <div className="flex justify-content-center" key={rawData.iddrivers}>
                 <BsTrash className={'deleteIcon'} onClick={() => {
-                    deleteField(rawData.iddrivers)
+                    deleteField(rawData.iddieselPurchase)
 
                 }}/>
 
@@ -121,15 +122,15 @@ const Diesel = () => {
 
             </div>)
     }
-    const joinDate = (rawData) => {
-        const date = new Date(rawData.JoinDate)
+    const date = (rawData) => {
+        const date = new Date(rawData.date)
         return (<div className={'p-0 m-0 text-center'}>{date.toLocaleDateString()} </div>)
     }
-    const getDrivers = () => {
-        axios.get('http://localhost:8081/getDrivers')
+    const getDieselPurchase = () => {
+        axios.get('http://localhost:8081/getDieselPurchase')
             .then((response) => {
-                setPurchases(response.data)
-                console.log(purchases)
+                setDieselPurchase(response.data)
+                console.log(dieselPurchase)
             })
             .then(error => console.log(error))
     }
@@ -143,7 +144,7 @@ const Diesel = () => {
                     data-pr-tooltip="PDF"/>
         </div>
 
-        <h2 className={'col-md-4 text-center'}>Work Done Information</h2>
+        <h2 className={'col-md-4 text-center'}>Diesel Purchase Information</h2>
         <div className={'col-md-4 text-end'}>
             <InputText
                 value={globalFilterValue}
@@ -154,29 +155,34 @@ const Diesel = () => {
     </div>);
 
     useEffect(() => {
-        getDrivers()
+        getDieselPurchase()
     }, []);
 
     return (<div className={'container-fluid'}>
-            <Header title={'Drivers Report'}/>
+            <Header title={'Diesel Purchase'}/>
             <Toast ref={toast}/>
             <div className={'card m-5'}>
-                <DataTable value={purchases} removableSort tableStyle={{minWidth: '50rem'}} filters={filters}
+                <DataTable value={dieselPurchase} removableSort tableStyle={{minWidth: '50rem'}} filters={filters}
                            header={header} emptyMessage="No customers found." rows={5} resizableColumns
                            stripedRows paginator rowsPerPageOptions={[5, 10, 25, 50]}
                            globalFilterFields={[
-                               'DriverName',
-                               'DriverContact',
-                               'DriverAddress',
-                               'JoinDate',
+                               'date',
+                               'PumpName',
+                               'PumpAddress',
+                               'Remark',
+                               'Rate',
+                               'Quantity',
+                               'Total',
+                               'uid',
                            ]}>
-                    <Column field={'DriverName'} header={'Name'} sortable></Column>
-                    <Column field={'DriverContact'} header={'Contact'} sortable></Column>
-                    <Column field={'DriverAddress'} header={'Address'} sortable></Column>
-                    <Column field={'AadharCard'} header={'Card'} sortable></Column>
-                    <Column field={'DrivingLicense'} header={'License'} sortable></Column>
-                    <Column field={'JoinDate'} header={'Join Date'} sortable body={joinDate}></Column>
-                    <Column field={'RatePerHour'} header={'RPH'} sortable></Column>
+                    <Column field={'date'} header={'Date'} sortable body={date}></Column>
+                    <Column field={'PumpName'} header={'PumpName'} sortable></Column>
+                    <Column field={'PumpAddress'} header={'PumpAddress'} sortable></Column>
+                    <Column field={'Remark'} header={'Remark'} sortable></Column>
+                    <Column field={'Rate'} header={'Rate'} sortable></Column>
+                    <Column field={'Quantity'} header={'Quantity'} sortable></Column>
+                    <Column field={'Total'} header={'Total'} sortable></Column>
+                    <Column field={'uid'} header={'Transaction ID'} sortable></Column>
                     {/*<Column field={'Remark'} header={'Remark'} style={{width: '25%', height: "auto"}} sortable*/}
                     {/*  body={remarkBody}></Column>*/}
                     <Column header={'Delete'} body={deleteBody}></Column>

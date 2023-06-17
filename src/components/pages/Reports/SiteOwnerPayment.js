@@ -6,28 +6,20 @@ import axios from "axios";
 import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
 import {BsFileEarmarkExcel, BsFileEarmarkPdf, BsTrash} from "react-icons/bs";
-import {Toast} from 'primereact/toast';
 import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';
 import {FilterMatchMode} from 'primereact/api';
+import {Toast} from 'primereact/toast';
 import Header from "../../utils/Header";
 
-const Drivers = () => {
-    const [drivers, setDrivers] = useState([]);
+const SiteOwnerPayment = () => {
+    const [sitePayment, setSitePayment] = useState([]);
     const toast = useRef(null);
     const [filters, setFilters] = useState({
         global: {value: null, matchMode: FilterMatchMode.CONTAINS},
     });
     const [globalFilterValue, setGlobalFilterValue] = useState('');
 
-
-    const onGlobalFilterChange = (e) => {
-        const value = e.target.value;
-        let _filters = {...filters};
-        _filters['global'].value = value;
-        setFilters(_filters);
-        setGlobalFilterValue(value);
-    };
 
     const showSuccess = () => {
         toast.current.show({
@@ -37,45 +29,49 @@ const Drivers = () => {
     const showError = () => {
         toast.current.show({severity: 'error', summary: 'Error', detail: 'Something went wrong', life: 3000});
     }
-
     const cols = [
-        {field: 'iddrivers', header: 'Id'},
-        {field: 'DriverName', header: 'Name'},
-        {field: 'DriverContact', header: 'Contact'},
-        {field: 'DriverAddress', header: 'Address'},
-        {field: 'DrivingLicense', header: 'Driving License'},
-        {field: 'JoinDate', header: 'Joining Date'},
-        {field: 'RatePerHour', header: 'Rate Per Hour'}
+        {field: 'idsitepayment', header: 'Id'},
+        {field: 'SiteName', header: 'Site Name'},
+        {field: 'FixedAmount', header: 'Fixed Amount'},
+        {field: 'PayingAmount', header: 'Paid Amount'},
+        {field: 'Date', header: 'Date'},
+        {field: 'uid', header: 'Transaction Id'}
     ];
-
+    const onGlobalFilterChange = (e) => {
+        const value = e.target.value;
+        let _filters = {...filters};
+        _filters['global'].value = value;
+        setFilters(_filters);
+        setGlobalFilterValue(value);
+    };
     const exportColumns = cols.map((col) => ({title: col.header, dataKey: col.field}));
-
     const exportPdf = () => {
         import('jspdf').then((jsPDF) => {
             import('jspdf-autotable').then(() => {
                 const doc = new jsPDF.default(0, 0);
-                doc.text("Drivers list", 15, 0)
-                doc.autoTable(exportColumns, drivers.map(driver => {
-                    const date = new Date(driver.JoinDate)
-                    return {...driver, JoinDate: date.toLocaleDateString()}
+                doc.text("Site Payment", 15, 0)
+                doc.autoTable(exportColumns, sitePayment.map(driver => {
+                    const date = new Date(driver.Date)
+                    return {...driver, Date: date.toLocaleDateString()}
                 }));
-                doc.save('drivers.pdf');
+                doc.save('SitePayment.pdf');
             });
         });
     };
-
     const exportExcel = () => {
         import('xlsx').then((xlsx) => {
-            const worksheet = xlsx.utils.json_to_sheet(drivers);
+            const worksheet = xlsx.utils.json_to_sheet(sitePayment.map(driver => {
+                const date = new Date(driver.VehiclePurchaseDate)
+                return {...driver, VehiclePurchaseDate: date.toLocaleDateString()}
+            }));
             const workbook = {Sheets: {data: worksheet}, SheetNames: ['data']};
             const excelBuffer = xlsx.write(workbook, {
                 bookType: 'xlsx', type: 'array'
             });
 
-            saveAsExcelFile(excelBuffer, 'drivers');
+            saveAsExcelFile(excelBuffer, 'SitePayment');
         });
     };
-
     const saveAsExcelFile = (buffer, fileName) => {
         import('file-saver').then((module) => {
             if (module && module.default) {
@@ -92,7 +88,7 @@ const Drivers = () => {
     const deleteField = async (id) => {
         // alert(id)
         try {
-            await axios.delete('http://localhost:8081/deleteDriver/' + Number(id))
+            await axios.delete('http://localhost:8081/getSitePayment/' + Number(id))
                 .then(res => {
                     console.log('res')
                     console.log(res)
@@ -103,38 +99,34 @@ const Drivers = () => {
                     console.log(error)
                     showError()
                 })
-
+            getSiteOwnerPayment()
         } catch (e) {
             showError()
         }
-        getDrivers()
+
     }
     const deleteBody = (rawData) => {
-        return (
-            <div className="flex justify-content-center" key={rawData.iddrivers}>
-                <BsTrash className={'deleteIcon'} onClick={() => {
-                    deleteField(rawData.iddrivers)
+        return (<div className="flex justify-content-center">
+            <BsTrash className={'deleteIcon'} onClick={() => {
+                deleteField(rawData.idsitepayment)
 
-                }}/>
-
-                {/*<ConfirmDeleteDialogBox from={'deleteDriver'} id={rawData.iddrivers} refresh={getDrivers}  />*/}
-
-            </div>)
+            }}/>
+        </div>)
     }
-    const joinDate = (rawData) => {
-        const date = new Date(rawData.JoinDate)
-        return (<div className={'p-0 m-0 text-center'}>{date.toLocaleDateString()} </div>)
+    const date = (rawData) => {
+        const date = new Date(rawData.Date)
+        return (<div className={'p-0 m-0'}>{date.toLocaleDateString()} </div>)
     }
-    const getDrivers = () => {
-        axios.get('http://localhost:8081/getDrivers')
+    const getSiteOwnerPayment = () => {
+        axios.get('http://localhost:8081/getSitePayment')
             .then((response) => {
-                setDrivers(response.data)
-                console.log(drivers)
+                setSitePayment(response.data)
+                console.log(sitePayment)
             })
             .then(error => console.log(error))
     }
     const header = (<div className="row">
-        <div className={'col-md-4 '}>
+        <div className={'col-md-3'}>
             <Button className={'mx-2'} type="button" icon={<BsFileEarmarkExcel/>} severity="success" rounded
                     onClick={exportExcel}
                     data-pr-tooltip="XLS"/>
@@ -143,7 +135,7 @@ const Drivers = () => {
                     data-pr-tooltip="PDF"/>
         </div>
 
-        <h2 className={'col-md-4 text-center'}>Work Done Information</h2>
+        <h2 className={'col-md-5 text-center'}>Site Owner Payment Information</h2>
         <div className={'col-md-4 text-end'}>
             <InputText
                 value={globalFilterValue}
@@ -152,39 +144,27 @@ const Drivers = () => {
             />
         </div>
     </div>);
-
     useEffect(() => {
-        getDrivers()
+        getSiteOwnerPayment()
     }, []);
 
     return (<div className={'container-fluid'}>
-            <Header title={'Drivers Report'}/>
-            <Toast ref={toast}/>
-            <div className={'card m-5'}>
-                <DataTable value={drivers} removableSort tableStyle={{minWidth: '50rem'}} filters={filters}
-                           header={header} emptyMessage="No customers found." rows={5} resizableColumns
-                           stripedRows paginator rowsPerPageOptions={[5, 10, 25, 50]}
-                           globalFilterFields={[
-                               'DriverName',
-                               'DriverContact',
-                               'DriverAddress',
-                               'JoinDate',
-                           ]}>
-                    <Column field={'DriverName'} header={'Name'} sortable></Column>
-                    <Column field={'DriverContact'} header={'Contact'} sortable></Column>
-                    <Column field={'DriverAddress'} header={'Address'} sortable></Column>
-                    <Column field={'AadharCard'} header={'Card'} sortable></Column>
-                    <Column field={'DrivingLicense'} header={'License'} sortable></Column>
-                    <Column field={'JoinDate'} header={'Join Date'} sortable body={joinDate}></Column>
-                    <Column field={'RatePerHour'} header={'RPH'} sortable></Column>
-                    {/*<Column field={'Remark'} header={'Remark'} style={{width: '25%', height: "auto"}} sortable*/}
-                    {/*  body={remarkBody}></Column>*/}
-                    <Column header={'Delete'} body={deleteBody}></Column>
-                </DataTable>
-            </div>
+        <Header title={'Site Owner Payment Report'}/>
+        <Toast ref={toast}/>
+        <div className={'card m-5'}>
+            <DataTable value={sitePayment} removableSort tableStyle={{minWidth: '50rem'}} filters={filters}
+                       header={header} emptyMessage="No customers found." rows={5} resizableColumns
+                       stripedRows paginator rowsPerPageOptions={[5, 10, 25, 50]}
+                       globalFilterFields={['SiteName', 'FixedAmount', 'PayingAmount', 'Date', 'uid']}>
+                <Column field={'SiteName'} header={'Site Name'} sortable></Column>
+                <Column field={'FixedAmount'} header={'Chassis Number'} sortable></Column>
+                <Column field={'PayingAmount'} header={'Paying Amount'} sortable></Column>
+                <Column field={'Date'} header={'Date'} sortable body={date}></Column>
+                <Column field={'uid'} header={'Transaction ID'} sortable></Column>
+                <Column header={'Delete'} body={deleteBody}></Column>
+            </DataTable>
         </div>
-
-    );
+    </div>);
 };
 
-export default Drivers;
+export default SiteOwnerPayment;

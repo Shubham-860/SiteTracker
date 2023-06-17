@@ -15,7 +15,12 @@ import Drivers from "./components/pages/Reports/Drivers";
 import Vehicles from "./components/pages/Reports/Vehicles";
 import WorkDone from "./components/pages/Reports/WorkDone";
 import DriversSalary from "./components/pages/DriversSalary";
-import OwnerPayments from "./components/pages/Reports/OwnerPayments";
+import OwnerPayments from "./components/pages/OwnerPayments";
+import SiteOwnerPayment from "./components/pages/Reports/SiteOwnerPayment";
+import Diesel from "./components/pages/Reports/Diesel";
+import Payments from "./components/pages/Reports/Payments";
+import Sites from "./components/pages/Reports/Sites";
+import Salarys from "./components/pages/Reports/Salarys";
 
 function App() {
     const [login, setLogin] = useState(false);
@@ -71,6 +76,11 @@ function App() {
                             <Route path="/WorkDone" element={<WorkDone/>}/>
                             <Route path="/DriversSalary" element={<DriversSalary/>}/>
                             <Route path="/OwnerPayments" element={<OwnerPayments/>}/>
+                            <Route path="/SiteOwnerPayment" element={<SiteOwnerPayment/>}/>
+                            <Route path="/Diesel" element={<Diesel/>}/>
+                            <Route path="/Payments" element={<Payments/>}/>
+                            <Route path="/Sites" element={<Sites/>}/>
+                            <Route path="/Salarys" element={<Salarys/>}/>
                             <Route path="*" element={<div
                                 className={'container d-flex justify-content-center align-content-around mt-md-3'}>
                                 <div className={'col-md-8'}>

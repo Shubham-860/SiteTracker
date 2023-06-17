@@ -49,7 +49,7 @@ const Vehicles = () => {
         import('jspdf').then((jsPDF) => {
             import('jspdf-autotable').then(() => {
                 const doc = new jsPDF.default(0, 0);
-                doc.text("Vehicles list", 0, 0)
+                doc.text("Vehicles list", 15, 0)
                 doc.autoTable(exportColumns, Vehicles.map(driver => {
                     const date = new Date(driver.VehiclePurchaseDate)
                     return {...driver, VehiclePurchaseDate: date.toLocaleDateString()}
