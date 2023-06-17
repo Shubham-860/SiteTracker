@@ -1,8 +1,8 @@
 import React, {useContext, useRef, useState} from 'react';
-import '../../App.css'
+import '../../../App.css'
 import axios from "axios";
-import Header from "../utils/Header";
-import User from "../../context/user";
+import Header from "../../utils/Header";
+import User from "../../../context/user";
 import {Toast} from 'primereact/toast';
 
 const SiteRegistration = () => {
@@ -36,8 +36,13 @@ const SiteRegistration = () => {
                 .post('http://localhost:8081/addSite', site)
                 .then(res => {
                     console.log(res)
-                    if (res.data !=="error Error: ER_DUP_ENTRY: Duplicate entry 'phaltan' for key 'site.SiteName_UNIQUE'"){
-                        toast.current.show({severity: 'success', summary: 'Success', detail: 'Site details added successfully', life: 3000});
+                    if (res.data !== "error Error: ER_DUP_ENTRY: Duplicate entry 'phaltan' for key 'site.SiteName_UNIQUE'") {
+                        toast.current.show({
+                            severity: 'success',
+                            summary: 'Success',
+                            detail: 'Site details added successfully',
+                            life: 3000
+                        });
                         // alert('added');
                         setSite({
                             OwnerName: '',
@@ -49,14 +54,23 @@ const SiteRegistration = () => {
                             FixedAmount: '',
                             PaidAmount: '',
                         })
-                    }
-                    else {
+                    } else {
                         setShowWarning2(true)
-                        toast.current.show({severity:'warn', summary: 'Warning', detail:'Message Content', life: 3000});
+                        toast.current.show({
+                            severity: 'warn',
+                            summary: 'Warning',
+                            detail: 'Message Content',
+                            life: 3000
+                        });
                     }
                 })
                 .catch(err => {
-                    toast.current.show({severity: 'error', summary: 'Error', detail: 'Something went wrong', life: 3000});
+                    toast.current.show({
+                        severity: 'error',
+                        summary: 'Error',
+                        detail: 'Something went wrong',
+                        life: 3000
+                    });
                     console.log(err)
                 })
 

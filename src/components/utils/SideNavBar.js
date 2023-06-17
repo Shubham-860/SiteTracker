@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Menu, menuClasses, MenuItem, Sidebar, SubMenu} from 'react-pro-sidebar';
 import {NavLink, useLocation} from 'react-router-dom';
 import {BsCardChecklist, BsList, BsXLg} from 'react-icons/bs';
+import OwnerPayments from "../pages/Reports/OwnerPayments";
 
 const SlideBarBtn = ({toggled, setToggled}) => {
     return (
@@ -82,30 +83,41 @@ const SideNavBar = ({handleLogout}) => {
                             <div className="py-3 px-1 text-light text-center border-bottom border-secondary">
                                 <h2>Vishwaraj Enterprise</h2>
                             </div>
+
                             <MenuItem onClick={hide} active={location.pathname === "/SiteRegistration"}
                                       component={<NavLink to="/SiteRegistration"/>}>
                                 Site Registration
                             </MenuItem>
+
                             <MenuItem onClick={hide} active={location.pathname === "/DriverRegistration"}
                                       component={<NavLink to="/DriverRegistration"/>}>
                                 Driver Registration
                             </MenuItem>
+
                             <MenuItem onClick={hide} active={location.pathname === "/VehicleRegistration"}
                                       component={<NavLink to="/VehicleRegistration"/>}>
                                 Vehicle Registration
                             </MenuItem>
+
+                            <MenuItem onClick={hide} active={location.pathname === "/WorkEntry"}
+                                      component={<NavLink to="/WorkEntry"/>}>
+                                Work Entry
+                            </MenuItem>
+
                             <MenuItem onClick={hide} active={location.pathname === "/DieselPurchase"}
                                       component={<NavLink to="/DieselPurchase"/>}>
                                 Diesel Purchase
                             </MenuItem>
-                            <MenuItem onClick={hide} active={location.pathname === "/WorkEntry"}
-                                      component={<NavLink to="/WorkEntry"/>}>
-                                WorkEntry
-                            </MenuItem>
 
                             <MenuItem onClick={hide} active={location.pathname === "/DriversSalary"}
                                       component={<NavLink to="/DriversSalary"/>}>
-                                DriversSalary
+                                Drivers Salary
+                            </MenuItem>
+
+
+                            <MenuItem onClick={hide} active={location.pathname === "/OwnerPayments"}
+                                      component={<NavLink to="/OwnerPayments"/>}>
+                                Owner Payments
                             </MenuItem>
 
 

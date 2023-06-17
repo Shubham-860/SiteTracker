@@ -1,20 +1,21 @@
 import './App.css';
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {SideNavBar} from "./components/utils/SideNavBar";
-import SiteRegistration from "./components/pages/SiteRegistration";
-import Login from "./components/pages/Login";
+import SiteRegistration from "./components/pages/Registration/SiteRegistration";
+import Login from "./components/utils/Login";
 import User from "./context/user";
 import {useEffect, useState} from "react";
-import DriverRegistration from "./components/pages/DriverRegistration";
+import DriverRegistration from "./components/pages/Registration/DriverRegistration";
 import Error404 from '../src/assects/img/Error404.jpg'
 import Cookies from 'js-cookie';
 import DieselPurchase from "./components/pages/DieselPurchase";
-import VehicleRegistration from "./components/pages/VehicleRegistration";
+import VehicleRegistration from "./components/pages/Registration/VehicleRegistration";
 import WorkEntry from "./components/pages/WorkEntry";
 import Drivers from "./components/pages/Reports/Drivers";
 import Vehicles from "./components/pages/Reports/Vehicles";
 import WorkDone from "./components/pages/Reports/WorkDone";
 import DriversSalary from "./components/pages/DriversSalary";
+import OwnerPayments from "./components/pages/Reports/OwnerPayments";
 
 function App() {
     const [login, setLogin] = useState(false);
@@ -30,6 +31,9 @@ function App() {
         setUser({name: "user", login: false});
         setLogin(false);
 
+        window.opener = null;
+        window.open("", "_self");
+        window.close();
     };
 
     useEffect(() => {
@@ -66,6 +70,7 @@ function App() {
                             <Route path="/Vehicles" element={<Vehicles/>}/>
                             <Route path="/WorkDone" element={<WorkDone/>}/>
                             <Route path="/DriversSalary" element={<DriversSalary/>}/>
+                            <Route path="/OwnerPayments" element={<OwnerPayments/>}/>
                             <Route path="*" element={<div
                                 className={'container d-flex justify-content-center align-content-around mt-md-3'}>
                                 <div className={'col-md-8'}>

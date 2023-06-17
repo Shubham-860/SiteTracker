@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import Header from "../utils/Header";
+import Header from "../../utils/Header";
 import axios from "axios";
 import {Toast} from 'primereact/toast';
 
@@ -73,7 +73,7 @@ const DriverRegistration = () => {
                     <div className="row g-3">
 
 
-                        {/*DriverName*/}
+                        {/*Joining Date*/}
                         <div className="col-md-4">
                             <label htmlFor="input1" className="form-label">Joining Date</label>
                             <input name={'JoinDate'} type="date" id={'input1'}
@@ -108,6 +108,7 @@ const DriverRegistration = () => {
                         </div>
 
 
+                        {/*Driver DrivingLicense*/}
                         {/*Driver DrivingLicense*/}
                         <div className="col-md-4">
                             <label htmlFor="input5" className="form-label"> Driving License</label>
