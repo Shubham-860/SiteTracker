@@ -31,7 +31,7 @@ const Payments = () => {
 
     const showSuccess = () => {
         toast.current.show({
-            severity: 'success', summary: 'Success', detail: 'Driver details deleted successfully', life: 3000
+            severity: 'success', summary: 'Success', detail: 'payments details deleted successfully', life: 3000
         });
     }
     const showError = () => {
@@ -54,7 +54,7 @@ const Payments = () => {
         import('jspdf').then((jsPDF) => {
             import('jspdf-autotable').then(() => {
                 const doc = new jsPDF.default(15, 0);
-                doc.text("Payments", 0, 0)
+                doc.text("Payments", 15, 10)
                 doc.autoTable(exportColumns, payments.map(driver => {
                     const date = new Date(driver.date)
                     return {...driver, date: date.toLocaleDateString()}
@@ -174,7 +174,7 @@ const Payments = () => {
                     <Column field={'uid'} header={'Transaction ID'} sortable></Column>
                     {/*<Column field={'Remark'} header={'Remark'} style={{width: '25%', height: "auto"}} sortable*/}
                     {/*  body={remarkBody}></Column>*/}
-                    <Column header={'Delete'} body={deleteBody}></Column>
+                    {/*<Column header={'Delete'} body={deleteBody}></Column>*/}
                 </DataTable>
             </div>
         </div>

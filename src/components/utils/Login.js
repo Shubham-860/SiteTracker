@@ -1,10 +1,11 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import axios from 'axios';
 import User from '../../context/user';
 import Cookies from 'js-cookie';
 import {useNavigate} from "react-router-dom";
+import {Toast} from "primereact/toast";
 
-const Login = ({update}) => {
+const Login = ({update,showSuccess}) => {
     const [userInfo, setUserInfo] = useState({
         email: '',
         password: ''
@@ -14,10 +15,19 @@ const Login = ({update}) => {
     const handleChange = (e) => {
         setUserInfo({...userInfo, [e.target.name]: e.target.value});
     };
+    const toast = useRef(null);
+
+
     if (user.login) {
-        navigate('/SiteRegistration')
+        navigate('/Home')
     }
 
+    const showError = () => {
+        toast.current.show({severity: 'error', summary: 'Error', detail: 'Invalid credentials', life: 3000});
+    }
+    const showError2 = () => {
+        toast.current.show({severity: 'error', summary: 'Error', detail: 'Login failed', life: 3000});
+    }
     const onSubmitHandle = (e) => {
         e.preventDefault();
 
@@ -28,21 +38,28 @@ const Login = ({update}) => {
                     const userCredentials = {...response.data[0], login: true};
                     setUser(userCredentials);
                     Cookies.set('loginCredentials', JSON.stringify(userCredentials)); // Store login credentials in a cookie
+                    showSuccess()
                     update(userCredentials);
                     // console.log(userCredentials)
-                    navigate('/SiteRegistration')
+                    navigate('/Home')
+                }
+                else {
+                    showError()
                 }
             })
             .catch((err) => {
                 console.log(err);
+                showError2()
             });
     };
 
     return (
         <div
-            className="d-flex align-items-center"
+            className="d-flex align-items-center p-4"
             style={{minHeight: '100vh', backgroundColor: 'rgba(210,210,210,0.53)'}}
         >
+            <Toast ref={toast}/>
+
             <form className={'container col-md-4 border border-2 p-5 rounded-4 shadow bg-white'}>
                 <h2 className={'text-center'}>Log In</h2>
                 <div className="mb-3">

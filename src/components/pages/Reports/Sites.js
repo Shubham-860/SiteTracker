@@ -31,7 +31,7 @@ const Sites = () => {
 
     const showSuccess = () => {
         toast.current.show({
-            severity: 'success', summary: 'Success', detail: 'Driver details deleted successfully', life: 3000
+            severity: 'success', summary: 'Success', detail: 'Site details deleted successfully', life: 3000
         });
     }
     const showError = () => {
@@ -99,7 +99,7 @@ const Sites = () => {
     const deleteField = async (id) => {
         // alert(id)
         try {
-            await axios.delete('http://localhost:8081/iddieselPurchase/' + Number(id))
+            await axios.delete('http://localhost:8081/deleteSite/' + Number(id))
                 .then(res => {
                     console.log('res')
                     console.log(res)

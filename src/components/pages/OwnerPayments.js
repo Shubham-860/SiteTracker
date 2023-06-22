@@ -35,17 +35,17 @@ const OwnerPayments = () => {
 
     function onSubmitHandle(e) {
         e.preventDefault()
-        // const isAnyFieldEmpty = Object.values(ownerPayment).some((value) => value === '');
-        // console.log(ownerPayment)
-        // if (isAnyFieldEmpty) {
-        //     toast.current.show({
-        //         severity: 'warn',
-        //         summary: 'Warning',
-        //         detail: 'Please fill in all the fields.',
-        //         life: 3000
-        //     });
-        // }
-        // else {
+        const isAnyFieldEmpty = Object.values(ownerPayment).some((value) => value === '');
+        console.log(ownerPayment)
+        if (isAnyFieldEmpty) {
+            toast.current.show({
+                severity: 'warn',
+                summary: 'Warning',
+                detail: 'Please fill in all the fields.',
+                life: 3000
+            });
+        }
+        else {
         console.log(ownerPayment)
         console.log('ownerPayment')
         console.log({
@@ -54,7 +54,7 @@ const OwnerPayments = () => {
             SiteName:ownerPayment.SiteName.name,
             from: OwnerName.current.value,
             to: 'Vishwaraj Enterprise',
-            subject: 'Owner PAyment',
+            subject: 'Owner Payment',
             type: 'Payment',
         })
         axios
@@ -78,15 +78,14 @@ const OwnerPayments = () => {
                 toast.current.show({severity: 'error', summary: 'Error', detail: 'Something went wrong', life: 3000});
                 console.log(err)
             })
-        // setOwnerPayment({
-        //     SiteName: '',
-        //     Date: '',
-        //     FixedAmount: '',
-        //     PaidAmount: '',
-        //     uid: '',
-        // })
+        setOwnerPayment({
+            SiteName: '',
+            Date: '',
+            PayingAmount: '',
+            uid:uuidv4(),
+        })
 
-        // }
+        }
 
     }
 

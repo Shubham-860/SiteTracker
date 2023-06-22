@@ -31,7 +31,7 @@ const Diesel = () => {
 
     const showSuccess = () => {
         toast.current.show({
-            severity: 'success', summary: 'Success', detail: 'Driver details deleted successfully', life: 3000
+            severity: 'success', summary: 'Success', detail: 'Deleted successfully', life: 3000
         });
     }
     const showError = () => {
@@ -90,10 +90,10 @@ const Diesel = () => {
             }
         });
     };
-    const deleteField = async (id) => {
+    const deleteField = async (iddieselPurchase) => {
         // alert(id)
         try {
-            await axios.delete('http://localhost:8081/iddieselPurchase/' + Number(id))
+            await axios.delete('http://localhost:8081/deleteFuelPurchase/' + Number(iddieselPurchase))
                 .then(res => {
                     console.log('res')
                     console.log(res)
@@ -112,7 +112,7 @@ const Diesel = () => {
     }
     const deleteBody = (rawData) => {
         return (
-            <div className="flex justify-content-center" key={rawData.iddrivers}>
+            <div className="flex justify-content-center" key={rawData.iddieselPurchase}>
                 <BsTrash className={'deleteIcon'} onClick={() => {
                     deleteField(rawData.iddieselPurchase)
 

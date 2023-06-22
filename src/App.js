@@ -4,7 +4,7 @@ import {SideNavBar} from "./components/utils/SideNavBar";
 import SiteRegistration from "./components/pages/Registration/SiteRegistration";
 import Login from "./components/utils/Login";
 import User from "./context/user";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import DriverRegistration from "./components/pages/Registration/DriverRegistration";
 import Error404 from '../src/assects/img/Error404.jpg'
 import Cookies from 'js-cookie';
@@ -21,10 +21,15 @@ import Diesel from "./components/pages/Reports/Diesel";
 import Payments from "./components/pages/Reports/Payments";
 import Sites from "./components/pages/Reports/Sites";
 import Salarys from "./components/pages/Reports/Salarys";
+import {Toast} from 'primereact/toast';
+import Home from "./components/pages/Home";
+import AddUser from "./components/pages/AddUser";
+import Users from "./components/pages/Reports/Users";
 
 function App() {
     const [login, setLogin] = useState(false);
     const [user, setUser] = useState({name: "user"});
+    const toast = useRef(null);
 
     const updateUser = (newUser) => {
         setUser(newUser);
@@ -40,7 +45,11 @@ function App() {
         window.open("", "_self");
         window.close();
     };
-
+    const showSuccess = (no) => {
+        toast.current.show({
+            severity: 'success', summary: 'Success', detail: 'Login successful', life: 3000
+        });
+    }
     useEffect(() => {
         const storedCredentials = Cookies.get('loginCredentials');
         if (storedCredentials) {
@@ -52,20 +61,22 @@ function App() {
 
     return (
         <User.Provider value={[user, setUser]}>
+            <Toast ref={toast}/>
             <BrowserRouter>
                 {login && <SideNavBar handleLogout={handleLogout}/>}
                 <Routes>
                     {!login ? (
                         <>
-                            <Route path="/" element={<Login update={updateUser}/>}/>
-                            <Route path="/login" element={<Login/>} update={updateUser}/>
-                            {/*<Route path="/*" element={<Navigate to="/" />} />*/}
+                            <Route path="/" element={<Login update={updateUser} showSuccess={showSuccess}/>}/>
+                            <Route path="/login" element={<Login/>} update={updateUser} showSuccess={showSuccess}/>
+                            <Route path="/*" element={<Navigate to="/" />} />
 
                         </>
                     ) : (
                         <>
 
-                            <Route path="/" element={<SiteRegistration/>}/>
+                            <Route path="/" element={<Home/>}/>
+                            <Route path="/Home" element={<Home/>}/>
                             <Route path="/SiteRegistration" element={<SiteRegistration/>}/>
                             <Route path="/DriverRegistration" element={<DriverRegistration/>}/>
                             <Route path="/DieselPurchase" element={<DieselPurchase/>}/>
@@ -81,6 +92,8 @@ function App() {
                             <Route path="/Payments" element={<Payments/>}/>
                             <Route path="/Sites" element={<Sites/>}/>
                             <Route path="/Salarys" element={<Salarys/>}/>
+                            <Route path="/AddUser" element={<AddUser/>}/>
+                            <Route path="/Users" element={<Users/>}/>
                             <Route path="*" element={<div
                                 className={'container d-flex justify-content-center align-content-around mt-md-3'}>
                                 <div className={'col-md-8'}>

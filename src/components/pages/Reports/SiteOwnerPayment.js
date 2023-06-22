@@ -11,6 +11,7 @@ import {InputText} from 'primereact/inputtext';
 import {FilterMatchMode} from 'primereact/api';
 import {Toast} from 'primereact/toast';
 import Header from "../../utils/Header";
+import {useNavigate} from "react-router-dom";
 
 const SiteOwnerPayment = () => {
     const [sitePayment, setSitePayment] = useState([]);
@@ -19,11 +20,11 @@ const SiteOwnerPayment = () => {
         global: {value: null, matchMode: FilterMatchMode.CONTAINS},
     });
     const [globalFilterValue, setGlobalFilterValue] = useState('');
-
+const navigate =   useNavigate();
 
     const showSuccess = () => {
         toast.current.show({
-            severity: 'success', summary: 'Success', detail: 'Driver details deleted successfully', life: 3000
+            severity: 'success', summary: 'Success', detail: 'Site owner payment details deleted successfully', life: 3000
         });
     }
     const showError = () => {
@@ -85,10 +86,10 @@ const SiteOwnerPayment = () => {
             }
         });
     };
-    const deleteField = async (id) => {
+    const deleteField = async (PayingAmount, uid, SiteName) => {
         // alert(id)
         try {
-            await axios.delete('http://localhost:8081/getSitePayment/' + Number(id))
+            await axios.post('http://localhost:8081/deleteSiteOwnerPayment', {PayingAmount, uid, SiteName})
                 .then(res => {
                     console.log('res')
                     console.log(res)
@@ -99,6 +100,7 @@ const SiteOwnerPayment = () => {
                     console.log(error)
                     showError()
                 })
+            navigate('/SiteOwnerPayment')
             getSiteOwnerPayment()
         } catch (e) {
             showError()
@@ -108,10 +110,13 @@ const SiteOwnerPayment = () => {
     const deleteBody = (rawData) => {
         return (<div className="flex justify-content-center">
             <BsTrash className={'deleteIcon'} onClick={() => {
-                deleteField(rawData.idsitepayment)
+                deleteField(rawData.PayingAmount, rawData.uid, rawData.SiteName)
 
             }}/>
         </div>)
+    }
+    const remainingAmount = (rawData) => {
+        return (<div> {rawData.FixedAmount - rawData.PayingAmount}</div>)
     }
     const date = (rawData) => {
         const date = new Date(rawData.Date)
@@ -157,7 +162,8 @@ const SiteOwnerPayment = () => {
                        stripedRows paginator rowsPerPageOptions={[5, 10, 25, 50]}
                        globalFilterFields={['SiteName', 'FixedAmount', 'PayingAmount', 'Date', 'uid']}>
                 <Column field={'SiteName'} header={'Site Name'} sortable></Column>
-                <Column field={'FixedAmount'} header={'Chassis Number'} sortable></Column>
+                <Column field={'FixedAmount'} header={'Fixed Amount'} sortable></Column>
+                <Column field={'FixedAmount'} header={'Remaining amount'} body={remainingAmount} sortable></Column>
                 <Column field={'PayingAmount'} header={'Paying Amount'} sortable></Column>
                 <Column field={'Date'} header={'Date'} sortable body={date}></Column>
                 <Column field={'uid'} header={'Transaction ID'} sortable></Column>

@@ -1,23 +1,20 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Menu, menuClasses, MenuItem, Sidebar, SubMenu} from 'react-pro-sidebar';
 import {NavLink, useLocation} from 'react-router-dom';
 import {
     BsBuildingAdd,
     BsCardChecklist,
     BsCreditCard2Front,
-    BsList,
+    BsList, BsPeople, BsPerson, BsPersonAdd,
     BsPersonPlus,
     BsPersonVcard,
     BsXLg
 } from 'react-icons/bs';
 import {AiOutlineAppstoreAdd} from "react-icons/ai";
-import {BiCar, BiGasPump, BiMoneyWithdraw} from "react-icons/bi";
+import {BiCar, BiGasPump, BiHomeAlt2, BiMoneyWithdraw} from "react-icons/bi";
 import {FaRegMoneyBillAlt} from "react-icons/fa";
-import SiteOwnerPayment from "../pages/Reports/SiteOwnerPayment";
-import Diesel from "../pages/Reports/Diesel";
-import Payments from "../pages/Reports/Payments";
-import Sites from "../pages/Reports/Sites";
-import Salarys from "../pages/Reports/Salarys";
+import User from "../../context/user";
+
 
 const SlideBarBtn = ({toggled, setToggled}) => {
     return (
@@ -33,6 +30,7 @@ const SideNavBar = ({handleLogout}) => {
     const [toggled, setToggled] = useState(false);
     const iconSize = 25;
     const location = useLocation();
+    const user = useContext(User);
     console.log(location.pathname);
     const hide = () => {
         setToggled(!toggled);
@@ -48,7 +46,7 @@ const SideNavBar = ({handleLogout}) => {
             <Sidebar
                 toggled={toggled}
                 collapsedWidth="60px"
-                width="250px"
+                width="300px"
                 backgroundColor="rgba(45,45,45,0.85)"
                 image="https://images.unsplash.com/photo-1531804055935-76f44d7c3621?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=388&q=80"
                 transitionDuration={500}
@@ -96,22 +94,34 @@ const SideNavBar = ({handleLogout}) => {
                     <div className="d-flex flex-column justify-content-between" style={{height: "100vh"}}>
                         <div>
                             <div className="py-3 px-1 text-light text-center border-bottom border-secondary">
-                                <h2>Vishwaraj Enterprise</h2>
+                                <h2>Site Tracker</h2>
                             </div>
+
+
+                            <MenuItem onClick={hide} icon={<BiHomeAlt2 size={iconSize}/>}
+                                      active={location.pathname === "/Home"}
+                                      component={<NavLink to="/Home"/>}>
+                                Home
+                            </MenuItem>
+
 
                             <SubMenu label={'Registration'} icon={< AiOutlineAppstoreAdd size={iconSize}/>}>
 
-                                <MenuItem onClick={hide} icon={< BsBuildingAdd size={iconSize} />} active={location.pathname === "/SiteRegistration"}
+
+                                <MenuItem onClick={hide} icon={< BsBuildingAdd size={iconSize}/>}
+                                          active={location.pathname === "/SiteRegistration"}
                                           component={<NavLink to="/SiteRegistration"/>}>
                                     Site Registration
                                 </MenuItem>
 
-                                <MenuItem onClick={hide} icon={<BsPersonPlus size={iconSize} />} active={location.pathname === "/DriverRegistration"}
+                                <MenuItem onClick={hide} icon={<BsPersonPlus size={iconSize}/>}
+                                          active={location.pathname === "/DriverRegistration"}
                                           component={<NavLink to="/DriverRegistration"/>}>
                                     Driver Registration
                                 </MenuItem>
 
-                                <MenuItem onClick={hide} icon={<BiCar size={iconSize} />} active={location.pathname === "/VehicleRegistration"}
+                                <MenuItem onClick={hide} icon={<BiCar size={iconSize}/>}
+                                          active={location.pathname === "/VehicleRegistration"}
                                           component={<NavLink to="/VehicleRegistration"/>}>
                                     Vehicle Registration
                                 </MenuItem>
@@ -120,25 +130,28 @@ const SideNavBar = ({handleLogout}) => {
                             </SubMenu>
 
 
-                            <MenuItem onClick={hide} icon={<BsPersonVcard size={iconSize}/>} active={location.pathname === "/WorkEntry"}
+                            <MenuItem onClick={hide} icon={<BsPersonVcard size={iconSize}/>}
+                                      active={location.pathname === "/WorkEntry"}
                                       component={<NavLink to="/WorkEntry"/>}>
                                 Work Entry
                             </MenuItem>
 
-
                             <SubMenu label={'Payments'} icon={< BsCreditCard2Front size={iconSize}/>}>
 
-                                <MenuItem onClick={hide} icon={< BiGasPump size={iconSize} />} active={location.pathname === "/DieselPurchase"}
+                                <MenuItem onClick={hide} icon={< BiGasPump size={iconSize}/>}
+                                          active={location.pathname === "/DieselPurchase"}
                                           component={<NavLink to="/DieselPurchase"/>}>
                                     Diesel Purchase
                                 </MenuItem>
 
-                                <MenuItem onClick={hide} icon={<BiMoneyWithdraw size={iconSize}/>} active={location.pathname === "/DriversSalary"}
+                                <MenuItem onClick={hide} icon={<BiMoneyWithdraw size={iconSize}/>}
+                                          active={location.pathname === "/DriversSalary"}
                                           component={<NavLink to="/DriversSalary"/>}>
                                     Drivers Salary
                                 </MenuItem>
 
-                                <MenuItem onClick={hide} icon={<FaRegMoneyBillAlt size={iconSize} />} active={location.pathname === "/OwnerPayments"}
+                                <MenuItem onClick={hide} icon={<FaRegMoneyBillAlt size={iconSize}/>}
+                                          active={location.pathname === "/OwnerPayments"}
                                           component={<NavLink to="/OwnerPayments"/>}>
                                     Owner Payments
                                 </MenuItem>
@@ -147,36 +160,59 @@ const SideNavBar = ({handleLogout}) => {
 
 
                             <SubMenu label="Records" icon={<BsCardChecklist size={iconSize}/>}>
-                                <MenuItem onClick={hide} component={<NavLink to="/Drivers"/>} active={location.pathname === "/DriversSalaryDrivers"}>
-                                    Drivers
-                                </MenuItem>
-                                <MenuItem onClick={hide} component={<NavLink to="/Vehicles"/>} active={location.pathname === "/Vehicles"}>
-                                    Vehicles
-                                </MenuItem>
-                                <MenuItem onClick={hide} component={<NavLink to="/WorkDone"/>} active={location.pathname === "/WorkDone"}>
-                                    Work Done
-                                </MenuItem>
-                                <MenuItem onClick={hide} component={<NavLink to="/SiteOwnerPayment"/>} active={location.pathname === "/SiteOwnerPayment"}>
-                                    Site Owner Payment
-                                </MenuItem>
-                                <MenuItem onClick={hide} component={<NavLink to="/Diesel"/>} active={location.pathname === "/Diesel"}>
-                                    Diesel
-                                </MenuItem>
-                                <MenuItem onClick={hide} component={<NavLink to="/Payments"/>} active={location.pathname === "/Payments"}>
-                                    Payments
-                                </MenuItem>
-                                <MenuItem onClick={hide} component={<NavLink to="/Sites"/>} active={location.pathname === "/Sites"}>
+                                <MenuItem onClick={hide} component={<NavLink to="/Sites"/>}
+                                          active={location.pathname === "/Sites"}>
                                     Sites
                                 </MenuItem>
-                                <MenuItem onClick={hide} component={<NavLink to="/Salarys"/>} active={location.pathname === "/Salarys"}>
+                                <MenuItem onClick={hide} component={<NavLink to="/Drivers"/>}
+                                          active={location.pathname === "/DriversSalaryDrivers"}>
+                                    Drivers
+                                </MenuItem>
+                                <MenuItem onClick={hide} component={<NavLink to="/Vehicles"/>}
+                                          active={location.pathname === "/Vehicles"}>
+                                    Vehicles
+                                </MenuItem>
+                                <MenuItem onClick={hide} component={<NavLink to="/WorkDone"/>}
+                                          active={location.pathname === "/WorkDone"}>
+                                    Work Done
+                                </MenuItem>
+                                <MenuItem onClick={hide} component={<NavLink to="/SiteOwnerPayment"/>}
+                                          active={location.pathname === "/SiteOwnerPayment"}>
+                                    Site Owner Payment
+                                </MenuItem>
+                                <MenuItem onClick={hide} component={<NavLink to="/Diesel"/>}
+                                          active={location.pathname === "/Diesel"}>
+                                    Diesel
+                                </MenuItem>
+                                <MenuItem onClick={hide} component={<NavLink to="/Payments"/>}
+                                          active={location.pathname === "/Payments"}>
+                                    Payments
+                                </MenuItem>
+                                <MenuItem onClick={hide} component={<NavLink to="/Salarys"/>}
+                                          active={location.pathname === "/Salarys"}>
                                     Salarys
                                 </MenuItem>
                             </SubMenu>
 
+                            {user[0].superuser === 'Yes' &&
+                                <SubMenu label={'User'} icon={<BsPerson size={iconSize} />}>
+                                    <MenuItem onClick={hide} icon={<BsPersonAdd size={iconSize}/>}
+                                              active={location.pathname === "/AddUser"}
+                                              component={<NavLink to="/AddUser"/>}>
+                                        Add User
+                                    </MenuItem>
+                                    <MenuItem onClick={hide} icon={<BsPeople size={iconSize}/>}
+                                              active={location.pathname === "/Users"}
+                                              component={<NavLink to="/Users"/>}>
+                                        Users
+                                    </MenuItem>
+                                </SubMenu>
+
+                            }
 
                         </div>
                         <div className="d-flex justify-content-center mb-4">
-                            <button className="btn btn-outline-light w-75" onClick={handleLogout}>
+                            <button className="btn btn-outline-light w-75 my-3" onClick={handleLogout}>
                                 Logout
                             </button>
                         </div>

@@ -32,7 +32,7 @@ const Salarys = () => {
     };
     const showSuccess = () => {
         toast.current.show({
-            severity: 'success', summary: 'Success', detail: 'Driver details deleted successfully', life: 3000
+            severity: 'success', summary: 'Success', detail: 'Salary deleted successfully', life: 3000
         });
     }
     const showError = () => {
@@ -93,7 +93,7 @@ const Salarys = () => {
     const deleteField = async (id) => {
         // alert(id)
         try {
-            await axios.delete('http://localhost:8081/getDriversSalary/' + Number(id))
+            await axios.delete('http://localhost:8081/deleteSalary/' +id)
                 .then(res => {
                     console.log('res')
                     console.log(res)
@@ -108,13 +108,13 @@ const Salarys = () => {
         } catch (e) {
             showError()
         }
-        getDieselPurchase()
+        getSalary()
     }
     const deleteBody = (rawData) => {
         return (
-            <div className="flex justify-content-center" key={rawData.iddrivers}>
+            <div className="flex justify-content-center" key={rawData.uid}>
                 <BsTrash className={'deleteIcon'} onClick={() => {
-                    deleteField(rawData.iddieselPurchase)
+                    deleteField(rawData.uid)
 
                 }}/>
 
@@ -128,9 +128,11 @@ const Salarys = () => {
     }
     const month = (rawData) => {
         const date = new Date(rawData.Month)
-        return (<span className={'p-0 m-0'}>{date.toLocaleDateString()} </span>)
+        var months= ["January","February","March","April","May","June","July",
+            "August","September","October","November","December"];
+        return (<span className={'p-0 m-0 ps-1'}> {months[date.getMonth()]} / {date.getFullYear()} </span>)
     }
-    const getDieselPurchase = () => {
+    const getSalary = () => {
         axios.get('http://localhost:8081/getDriversSalary')
             .then((response) => {
                 setSalarys(response.data)
@@ -167,7 +169,7 @@ const Salarys = () => {
     };
 
     useEffect(() => {
-        getDieselPurchase()
+        getSalary()
     }, []);
 
     return (<div className={'container-fluid'}>

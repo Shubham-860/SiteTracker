@@ -143,7 +143,7 @@ const Drivers = () => {
                     data-pr-tooltip="PDF"/>
         </div>
 
-        <h2 className={'col-md-4 text-center'}>Work Done Information</h2>
+        <h2 className={'col-md-4 text-center'}>Drivers Information</h2>
         <div className={'col-md-4 text-end'}>
             <InputText
                 value={globalFilterValue}
