@@ -172,6 +172,10 @@ const SideNavBar = ({handleLogout}) => {
                                           active={location.pathname === "/Vehicles"}>
                                     Vehicles
                                 </MenuItem>
+                                <MenuItem onClick={hide} component={<NavLink to="/Diesel"/>}
+                                          active={location.pathname === "/Diesel"}>
+                                    Diesel
+                                </MenuItem>
                                 <MenuItem onClick={hide} component={<NavLink to="/WorkDone"/>}
                                           active={location.pathname === "/WorkDone"}>
                                     Work Done
@@ -180,17 +184,13 @@ const SideNavBar = ({handleLogout}) => {
                                           active={location.pathname === "/SiteOwnerPayment"}>
                                     Site Owner Payment
                                 </MenuItem>
-                                <MenuItem onClick={hide} component={<NavLink to="/Diesel"/>}
-                                          active={location.pathname === "/Diesel"}>
-                                    Diesel
+                                <MenuItem onClick={hide} component={<NavLink to="/Salarys"/>}
+                                          active={location.pathname === "/Salarys"}>
+                                    Salarys
                                 </MenuItem>
                                 <MenuItem onClick={hide} component={<NavLink to="/Payments"/>}
                                           active={location.pathname === "/Payments"}>
                                     Payments
-                                </MenuItem>
-                                <MenuItem onClick={hide} component={<NavLink to="/Salarys"/>}
-                                          active={location.pathname === "/Salarys"}>
-                                    Salarys
                                 </MenuItem>
                             </SubMenu>
 

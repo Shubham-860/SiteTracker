@@ -4,6 +4,7 @@ import {Toast} from "primereact/toast";
 import axios from "axios";
 import {v4 as uuidv4} from 'uuid';
 import {Dropdown} from "primereact/dropdown";
+import {useNavigate} from "react-router-dom";
 
 const OwnerPayments = () => {
     const toast = useRef(null);
@@ -12,10 +13,10 @@ const OwnerPayments = () => {
         SiteName: '',
         Date: '',
         PayingAmount: '',
-        uid:uuidv4(),
+        uid: uuidv4(),
     });
     const [showWarning, setShowWarning] = useState(false);
-
+    const navigate = useNavigate()
 
     const OwnerName = useRef();
     const Contact = useRef();
@@ -44,47 +45,51 @@ const OwnerPayments = () => {
                 detail: 'Please fill in all the fields.',
                 life: 3000
             });
-        }
-        else {
-        console.log(ownerPayment)
-        console.log('ownerPayment')
-        console.log({
-            ...ownerPayment,
-
-            SiteName:ownerPayment.SiteName.name,
-            from: OwnerName.current.value,
-            to: 'Vishwaraj Enterprise',
-            subject: 'Owner Payment',
-            type: 'Payment',
-        })
-        axios
-            .post('http://localhost:8081/sitePayment', {
+        } else {
+            console.log(ownerPayment)
+            console.log('ownerPayment')
+            console.log({
                 ...ownerPayment,
-                FixedAmount:FixedAmount.current.value,
-                SiteName:ownerPayment.SiteName.name,
+                SiteName: ownerPayment.SiteName.name,
                 from: OwnerName.current.value,
                 to: 'Vishwaraj Enterprise',
-                subject: 'Owner PAyment',
+                subject: 'Owner Payment',
                 type: 'Payment',
             })
-            .then(res => {
-                console.log(res)
-                // alert('added')
-                toast.current.show({
-                    severity: 'success', summary: 'Success', detail: 'Driver details added successfully', life: 3000
-                });
+            axios
+                .post('http://localhost:8081/sitePayment', {
+                    ...ownerPayment,
+                    FixedAmount: FixedAmount.current.value,
+                    SiteName: ownerPayment.SiteName.name,
+                    from: OwnerName.current.value,
+                    to: 'Vishwaraj Enterprise',
+                    subject: 'Owner PAyment',
+                    type: 'Payment',
+                })
+                .then(res => {
+                    console.log(res)
+                    // alert('added')
+                    toast.current.show({
+                        severity: 'success', summary: 'Success', detail: 'Driver details added successfully', life: 3000
+                    });
+                })
+                .catch(err => {
+                    toast.current.show({
+                        severity: 'error',
+                        summary: 'Error',
+                        detail: 'Something went wrong',
+                        life: 3000
+                    });
+                    console.log(err)
+                })
+            setOwnerPayment({
+                SiteName: '',
+                Date: '',
+                PayingAmount: '',
+                uid: uuidv4(),
             })
-            .catch(err => {
-                toast.current.show({severity: 'error', summary: 'Error', detail: 'Something went wrong', life: 3000});
-                console.log(err)
-            })
-        setOwnerPayment({
-            SiteName: '',
-            Date: '',
-            PayingAmount: '',
-            uid:uuidv4(),
-        })
-
+            fetchData().then()
+            navigate(0)
         }
 
     }
@@ -107,13 +112,9 @@ const OwnerPayments = () => {
         try {
             const siteResponse = await axios.get('http://localhost:8081/getSite');
             setSites(siteResponse.data);
-            // console.log('sites')
-            // console.log(site);
         } catch (error) {
             console.log(error);
         }
-        // console.log('sites')
-        // console.log(site);
     };
 
     useEffect(() => {
