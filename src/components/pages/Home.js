@@ -164,42 +164,42 @@ const Home = () => {
                     <ol style={{listStyle: 'none'}} className={'text-dark'}>
                         <li className={'text-decoration-none'}>
                             <NavLink className={'text-decoration-none text-dark'} to={'/Sites'}>
-                                Sites
+                                > Sites
                             </NavLink>
                         </li>
                         <li className={'text-decoration-none'}>
                             <NavLink className={'text-decoration-none text-dark'} to={'/Drivers'}>
-                                Drivers
+                                > Drivers
                             </NavLink>
                         </li>
                         <li className={'text-decoration-none'}>
                             <NavLink className={'text-decoration-none text-dark'} to={'/Vehicles'}>
-                                Vehicles
+                                > Vehicles
                             </NavLink>
                         </li>
                         <li className={'text-decoration-none'}>
                             <NavLink className={'text-decoration-none text-dark'} to={'/Diesel'}>
-                                Diesel
+                                > Diesel
                             </NavLink>
                         </li>
                         <li className={'text-decoration-none'}>
                             <NavLink className={'text-decoration-none text-dark'} to={'/WorkDone'}>
-                                Work Done
+                                > Work Done
                             </NavLink>
                         </li>
                         <li className={'text-decoration-none'}>
                             <NavLink className={'text-decoration-none text-dark'} to={'/SiteOwnerPayment'}>
-                                Site Owner Payment
+                                > Site Owner Payment
                             </NavLink>
                         </li>
                         <li className={'text-decoration-none'}>
                             <NavLink className={'text-decoration-none text-dark'} to={'/Salarys'}>
-                                Salarys
+                                > Salarys
                             </NavLink>
                         </li>
                         <li className={'text-decoration-none'}>
                             <NavLink className={'text-decoration-none text-dark'} to={'/Payments'}>
-                                Payments
+                                > Payments
                             </NavLink>
                         </li>
                     </ol>
