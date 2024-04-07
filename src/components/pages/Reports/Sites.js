@@ -11,6 +11,7 @@ import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';
 import {FilterMatchMode} from 'primereact/api';
 import Header from "../../utils/Header";
+import {baseUrl} from "../../utils/baseUrl";
 
 const Sites = () => {
     const [sites, setSites] = useState([]);
@@ -99,7 +100,7 @@ const Sites = () => {
     const deleteField = async (id) => {
         // alert(id)
         try {
-            await axios.delete('http://localhost:8081/deleteSite/' + Number(id))
+            await axios.delete(`${baseUrl}/deleteSite/` + Number(id))
                 .then(res => {
                     console.log('res')
                     console.log(res)
@@ -132,7 +133,7 @@ const Sites = () => {
         return (<div className={'p-0 m-0 text-center'}>{date.toLocaleDateString()} </div>)
     }
     const getAllPayment = () => {
-        axios.get('http://localhost:8081/getSite')
+        axios.get(`${baseUrl}/getSite`)
             .then((response) => {
                 setSites(response.data)
                 console.log(sites)
@@ -161,7 +162,7 @@ const Sites = () => {
 
     useEffect(() => {
         getAllPayment()
-    }, []);
+    });
 
     return (<div className={'container-fluid'}>
             <Header title={'Site Information'}/>

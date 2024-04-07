@@ -11,6 +11,7 @@ import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';
 import {FilterMatchMode} from 'primereact/api';
 import Header from "../../utils/Header";
+import {baseUrl} from "../../utils/baseUrl";
 
 const Salarys = () => {
     const [salarys, setSalarys] = useState([]);
@@ -93,7 +94,7 @@ const Salarys = () => {
     const deleteField = async (id) => {
         // alert(id)
         try {
-            await axios.delete('http://localhost:8081/deleteSalary/' +id)
+            await axios.delete(`${baseUrl}/deleteSalary/` +id)
                 .then(res => {
                     console.log('res')
                     console.log(res)
@@ -133,7 +134,7 @@ const Salarys = () => {
         return (<span className={'p-0 m-0 ps-1'}> {months[date.getMonth()]} / {date.getFullYear()} </span>)
     }
     const getSalary = () => {
-        axios.get('http://localhost:8081/getDriversSalary')
+        axios.get(`${baseUrl}/getDriversSalary`)
             .then((response) => {
                 setSalarys(response.data)
                 console.log(salarys)
@@ -170,7 +171,7 @@ const Salarys = () => {
 
     useEffect(() => {
         getSalary()
-    }, []);
+    });
 
     return (<div className={'container-fluid'}>
             <Header title={'Drivers Salary'}/>

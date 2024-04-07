@@ -11,6 +11,7 @@ import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';
 import {FilterMatchMode} from 'primereact/api';
 import Header from "../../utils/Header";
+import {baseUrl} from "../../utils/baseUrl";
 
 const Diesel = () => {
     const [dieselPurchase, setDieselPurchase] = useState([]);
@@ -93,7 +94,7 @@ const Diesel = () => {
     const deleteField = async (iddieselPurchase) => {
         // alert(id)
         try {
-            await axios.delete('http://localhost:8081/deleteFuelPurchase/' + Number(iddieselPurchase))
+            await axios.delete(`${baseUrl}/deleteFuelPurchase/` + Number(iddieselPurchase))
                 .then(res => {
                     console.log('res')
                     console.log(res)
@@ -127,7 +128,7 @@ const Diesel = () => {
         return (<div className={'p-0 m-0 text-center'}>{date.toLocaleDateString()} </div>)
     }
     const getDieselPurchase = () => {
-        axios.get('http://localhost:8081/getDieselPurchase')
+        axios.get(`${baseUrl}/getDieselPurchase`)
             .then((response) => {
                 setDieselPurchase(response.data)
                 console.log(dieselPurchase)
@@ -156,7 +157,7 @@ const Diesel = () => {
 
     useEffect(() => {
         getDieselPurchase()
-    }, []);
+    });
 
     return (<div className={'container-fluid'}>
             <Header title={'Diesel Purchase'}/>

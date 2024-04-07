@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { Toast } from 'primereact/toast';
 import Header from '../utils/Header';
+import {baseUrl} from "../utils/baseUrl";
 
 const AddUser = () => {
     const [showWarning, setShowWarning] = useState(false);
@@ -32,7 +33,7 @@ const AddUser = () => {
             setShowWarning(true);
         } else {
             axios
-                .post('http://localhost:8081/addUser', user)
+                .post(`${baseUrl}/addUser`, user)
                 .then((res) => {
                     console.log(res);
                     toast.current.show({
@@ -62,7 +63,7 @@ const AddUser = () => {
 
     useEffect(() => {
         axios
-            .get('http://localhost:8081/getDrivers')
+            .get(`${baseUrl}/getDrivers`)
             .then((response) => {
                 setDrivers(response.data);
                 console.log(drivers);

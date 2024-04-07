@@ -11,6 +11,7 @@ import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';
 import {FilterMatchMode} from 'primereact/api';
 import Header from "../../utils/Header";
+import {baseUrl} from "../../utils/baseUrl";
 
 const WorkDone = () => {
     const [workDone, setWorkDone] = useState([]);
@@ -96,7 +97,7 @@ const WorkDone = () => {
     const deleteField = async (id) => {
         // alert(id)
         try {
-            await axios.delete('http://localhost:8081/deleteWorkDone/' + Number(id))
+            await axios.delete(`${baseUrl}/deleteWorkDone/` + Number(id))
                 .then(res => {
                     console.log('res')
                     console.log(res)
@@ -126,7 +127,7 @@ const WorkDone = () => {
         return (<div className={'p-0 m-0 text-center'}>{date.toLocaleDateString()} </div>)
     }
     const getWorkDone = () => {
-        axios.get('http://localhost:8081/getWorkDone')
+        axios.get(`${baseUrl}/getWorkDone`)
             .then((response) => {
                 setWorkDone(response.data)
                 console.log(workDone)
@@ -154,7 +155,7 @@ const WorkDone = () => {
     </div>);
     useEffect(() => {
         getWorkDone()
-    }, []);
+    });
     return (<div className={'container-fluid'}>
             <Header title={'work Done Report'}/>
             <Toast ref={toast}/>

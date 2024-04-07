@@ -3,6 +3,7 @@ import Header from "../utils/Header";
 import axios from "axios";
 import {v4 as uuidv4} from 'uuid';
 import {Toast} from 'primereact/toast';
+import {baseUrl} from "../utils/baseUrl";
 
 const DieselPurchase = () => {
     const [pump, setPump] = useState({
@@ -32,7 +33,7 @@ const DieselPurchase = () => {
         } else {
             console.log(pump)
             axios
-                .post('http://localhost:8081/fuelPurchase', {
+                .post(`${baseUrl}/fuelPurchase`, {
                     ...pump,
                     from: 'Vishwaraj Enterprise',
                     to: pump.PumpName,
@@ -88,7 +89,7 @@ const DieselPurchase = () => {
         const fetchData = async () => {
             try {
 
-                const stockDieselResponse = await axios.get('http://localhost:8081/getStockDiesel');
+                const stockDieselResponse = await axios.get(`${baseUrl}/getStockDiesel`);
                 setStockDiesel(stockDieselResponse.data[0].stock);
                 // console.log(stockDieselResponse.data[0].stock)
 

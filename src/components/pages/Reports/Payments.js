@@ -11,6 +11,7 @@ import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';
 import {FilterMatchMode} from 'primereact/api';
 import Header from "../../utils/Header";
+import {baseUrl} from "../../utils/baseUrl";
 
 const Payments = () => {
     const [payments, setPayments] = useState([]);
@@ -92,7 +93,7 @@ const Payments = () => {
     const deleteField = async (id) => {
         // alert(id)
         try {
-            await axios.delete('http://localhost:8081/iddieselPurchase/' + Number(id))
+            await axios.delete(`${baseUrl}/iddieselPurchase/` + Number(id))
                 .then(res => {
                     console.log('res')
                     console.log(res)
@@ -126,7 +127,7 @@ const Payments = () => {
         return (<div className={'p-0 m-0 text-center'}>{date.toLocaleDateString()} </div>)
     }
     const getAllPayment = () => {
-        axios.get('http://localhost:8081/getAllPayment')
+        axios.get(`${baseUrl}/getAllPayment`)
             .then((response) => {
                 setPayments(response.data)
                 console.log(payments)
@@ -155,7 +156,7 @@ const Payments = () => {
 
     useEffect(() => {
         getAllPayment()
-    }, []);
+    });
 
     return (<div className={'container-fluid'}>
             <Header title={'Payments'}/>

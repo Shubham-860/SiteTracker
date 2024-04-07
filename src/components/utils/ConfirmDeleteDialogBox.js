@@ -3,13 +3,14 @@ import {ConfirmDialog, confirmDialog} from "primereact/confirmdialog";
 import {Toast} from "primereact/toast";
 import {Button} from "primereact/button";
 import axios from "axios";
+import {baseUrl} from "./baseUrl";
 
 export default function ConfirmDeleteDialogBox({id, from,refresh}) {
     const toast = useRef(null);
 
     const accept =  () => {
 
-         axios.delete('http://localhost:8081/' + from + '/' + Number(id))
+         axios.delete(baseUrl + from + '/' + Number(id))
             .then(res => {
                 console.log('res');
                 console.log(res);

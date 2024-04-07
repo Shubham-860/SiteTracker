@@ -1,9 +1,9 @@
-import React, {useContext, useRef, useState} from 'react';
+import React, { useRef, useState} from 'react';
 import '../../../App.css'
 import axios from "axios";
 import Header from "../../utils/Header";
-import User from "../../../context/user";
 import {Toast} from 'primereact/toast';
+import {baseUrl} from "../../utils/baseUrl";
 
 const SiteRegistration = () => {
     const [site, setSite] = useState({
@@ -33,7 +33,7 @@ const SiteRegistration = () => {
             setShowWarning(false);
             console.log(site);
             axios
-                .post('http://localhost:8081/addSite', site)
+                .post(`${baseUrl}/addSite`, site)
                 .then(res => {
                     console.log(res)
                     if (res.data !== "error Error: ER_DUP_ENTRY: Duplicate entry 'phaltan' for key 'site.SiteName_UNIQUE'") {

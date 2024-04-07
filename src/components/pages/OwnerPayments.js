@@ -5,6 +5,7 @@ import axios from "axios";
 import {v4 as uuidv4} from 'uuid';
 import {Dropdown} from "primereact/dropdown";
 import {useNavigate} from "react-router-dom";
+import {baseUrl} from "../utils/baseUrl";
 
 const OwnerPayments = () => {
     const toast = useRef(null);
@@ -57,7 +58,7 @@ const OwnerPayments = () => {
                 type: 'Payment',
             })
             axios
-                .post('http://localhost:8081/sitePayment', {
+                .post(`${baseUrl}/sitePayment`, {
                     ...ownerPayment,
                     FixedAmount: FixedAmount.current.value,
                     SiteName: ownerPayment.SiteName.name,
@@ -110,7 +111,7 @@ const OwnerPayments = () => {
 
     const fetchData = async () => {
         try {
-            const siteResponse = await axios.get('http://localhost:8081/getSite');
+            const siteResponse = await axios.get(`${baseUrl}/getSite`);
             setSites(siteResponse.data);
         } catch (error) {
             console.log(error);

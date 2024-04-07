@@ -12,6 +12,7 @@ import {FilterMatchMode} from 'primereact/api';
 import {Toast} from 'primereact/toast';
 import Header from "../../utils/Header";
 import {useNavigate} from "react-router-dom";
+import {baseUrl} from "../../utils/baseUrl";
 
 const SiteOwnerPayment = () => {
     const [sitePayment, setSitePayment] = useState([]);
@@ -89,7 +90,7 @@ const navigate =   useNavigate();
     const deleteField = async (PayingAmount, uid, SiteName) => {
         // alert(id)
         try {
-            await axios.post('http://localhost:8081/deleteSiteOwnerPayment', {PayingAmount, uid, SiteName})
+            await axios.post(`${baseUrl}/deleteSiteOwnerPayment`, {PayingAmount, uid, SiteName})
                 .then(res => {
                     console.log('res')
                     console.log(res)
@@ -123,7 +124,7 @@ const navigate =   useNavigate();
         return (<div className={'p-0 m-0'}>{date.toLocaleDateString()} </div>)
     }
     const getSiteOwnerPayment = () => {
-        axios.get('http://localhost:8081/getSitePayment')
+        axios.get(`${baseUrl}/getSitePayment`)
             .then((response) => {
                 setSitePayment(response.data)
                 console.log(sitePayment)

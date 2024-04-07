@@ -4,6 +4,7 @@ import axios from 'axios';
 import {Chart} from 'primereact/chart';
 import {NavLink} from 'react-router-dom';
 import {Dropdown} from "primereact/dropdown";
+import {baseUrl} from "../utils/baseUrl";
 
 const Home = () => {
     const [payments, setPayments] = useState({});
@@ -45,7 +46,7 @@ const Home = () => {
         try {
 
             axios
-                .get('http://localhost:8081/getAllPayment')
+                .get(`${baseUrl}/getAllPayment`)
                 .then((response) => {
                     setPayments(response.data);
                     console.log(response.data);
@@ -62,7 +63,7 @@ const Home = () => {
                     console.log(result);
                 })
                 .catch(error => console.log(error));
-            const siteResponse = await axios.get('http://localhost:8081/getSite');
+            const siteResponse = await axios.get(`${baseUrl}/getSite`);
             setSites(siteResponse.data);
         } catch (e) {
             console.log(e)
@@ -227,7 +228,7 @@ const Home = () => {
                                     try {
 
                                         // expence
-                                        const Response = await axios.get('http://localhost:8081/getWorkDone')
+                                        const Response = await axios.get(`${baseUrl}/getWorkDone`)
                                             .then();
                                         const AmountToPay = Response.data.reduce((acc, item) => {
                                             if (item.SiteName === e.target.value.name) {

@@ -4,6 +4,7 @@ import User from '../../context/user';
 import Cookies from 'js-cookie';
 import {useNavigate} from "react-router-dom";
 import {Toast} from "primereact/toast";
+import {baseUrl} from "./baseUrl";
 
 const Login = ({update,showSuccess}) => {
     const [userInfo, setUserInfo] = useState({
@@ -32,7 +33,7 @@ const Login = ({update,showSuccess}) => {
         e.preventDefault();
 
         axios
-            .post('http://localhost:8081/login', userInfo)
+            .post(`${baseUrl}/login`, userInfo)
             .then((response) => {
                 if (response.data !== 'No records found') {
                     const userCredentials = {...response.data[0], login: true};

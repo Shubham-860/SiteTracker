@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import Header from "../../utils/Header";
 import axios from "axios";
 import {Toast} from 'primereact/toast';
+import {baseUrl} from "../../utils/baseUrl";
 
 const VehicleRegistration = () => {
     const [showWarning, setShowWarning] = useState(false);
@@ -31,7 +32,7 @@ const VehicleRegistration = () => {
         } else {
             console.log(vehicle)
             axios
-                .post('http://localhost:8081/addVehicle', vehicle)
+                .post(`${baseUrl}/addVehicle`, vehicle)
                 .then(res => {
                     console.log(res)
                     // alert('added')
@@ -54,13 +55,13 @@ const VehicleRegistration = () => {
     }
 
     useEffect(() => {
-        axios.get('http://localhost:8081/getDrivers')
+        axios.get(`${baseUrl}/getDrivers`)
             .then((response) => {
                 setDrivers(response.data)
                 console.log(drivers)
             })
             .then(error => console.log(error))
-    }, []);
+    });
     return (
         <>
             <Header title={'Vehicle Registration'}/>

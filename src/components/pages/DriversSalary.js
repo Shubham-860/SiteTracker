@@ -9,6 +9,7 @@ import {Dropdown} from 'primereact/dropdown';
 import {Toast} from 'primereact/toast';
 import {v4 as uuidv4} from 'uuid';
 import {useNavigate} from "react-router-dom";
+import {baseUrl} from "../utils/baseUrl";
 
 const DriversSalary = () => {
 
@@ -53,7 +54,7 @@ const DriversSalary = () => {
         }
         console.log(data)
         axios
-            .post('http://localhost:8081/addDriverSalary', data)
+            .post(`${baseUrl}/addDriverSalary`, data)
             .then((res) => {
                 console.log(res);
                 toast.current.show({
@@ -105,7 +106,7 @@ const DriversSalary = () => {
         try {
             const [workDoneResponse, paidSalaryResponse] = await Promise.all([
 
-                axios.get('http://localhost:8081/getWorkDone'), axios.get('http://localhost:8081/getDriversSalary'),]);
+                axios.get(`${baseUrl}/getWorkDone`), axios.get(`${baseUrl}/getDriversSalary`),]);
 
 
             setWorkDone(workDoneResponse.data);

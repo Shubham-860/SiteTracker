@@ -2,6 +2,7 @@ import React, {useRef, useState} from 'react';
 import Header from "../../utils/Header";
 import axios from "axios";
 import {Toast} from 'primereact/toast';
+import {baseUrl} from "../../utils/baseUrl";
 
 const DriverRegistration = () => {
     const [showWarning, setShowWarning] = useState(false);
@@ -30,7 +31,7 @@ const DriverRegistration = () => {
         } else {
             console.log(driver)
             axios
-                .post('http://localhost:8081/addDriver', driver)
+                .post(`${baseUrl}/addDriver`, driver)
                 .then(res => {
                     console.log(res)
                     // alert('added')

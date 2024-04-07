@@ -5,6 +5,7 @@ import {Dropdown} from 'primereact/dropdown';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import {Toast} from 'primereact/toast';
+import {baseUrl} from "../utils/baseUrl";
 
 const WorkEntry = () => {
     const [stockDiesel, setStockDiesel] = useState();
@@ -35,21 +36,21 @@ const WorkEntry = () => {
     const toast = useRef(null);
     const fetchData = async () => {
         try {
-            const driversResponse = await axios.get('http://localhost:8081/getDrivers');
+            const driversResponse = await axios.get(`${baseUrl}/getDrivers`);
             setDrivers(driversResponse.data);
             // console.log("drivers")
             // console.log(drivers);
 
-            const vehicleResponse = await axios.get('http://localhost:8081/getVehicles');
+            const vehicleResponse = await axios.get(`${baseUrl}/getVehicles`);
             setVehicles(vehicleResponse.data);
             // console.log('vehicles')
             // console.log(vehicle);
 
-            const siteResponse = await axios.get('http://localhost:8081/getSite');
+            const siteResponse = await axios.get(`${baseUrl}/getSite`);
             setSites(siteResponse.data);
             // console.log('sites')
             // console.log(site);
-            const stockDieselResponse = await axios.get('http://localhost:8081/getStockDiesel');
+            const stockDieselResponse = await axios.get(`${baseUrl}/getStockDiesel`);
             setStockDiesel(stockDieselResponse.data[0].stock);
             // console.log(stockDieselResponse.data[0].stock)
 
@@ -146,7 +147,7 @@ const WorkEntry = () => {
             }
             console.log(data)
             axios
-                .post('http://localhost:8081/addWorkDone', data)
+                .post(`${baseUrl}/addWorkDone`, data)
                 .then(res => {
                     console.log(res)
                     // alert(res.data)

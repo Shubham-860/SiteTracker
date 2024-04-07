@@ -11,6 +11,7 @@ import {InputText} from 'primereact/inputtext';
 import {FilterMatchMode} from 'primereact/api';
 import {Toast} from 'primereact/toast';
 import Header from "../../utils/Header";
+import {baseUrl} from "../../utils/baseUrl";
 
 const Vehicles = () => {
     const [Vehicles, setVehicles] = useState([]);
@@ -88,7 +89,7 @@ const Vehicles = () => {
     const deleteField = async (id) => {
         // alert(id)
         try {
-            await axios.delete('http://localhost:8081/deleteVehicles/' + Number(id))
+            await axios.delete(`${baseUrl}/deleteVehicles/` + Number(id))
                 .then(res => {
                     console.log('res')
                     console.log(res)
@@ -118,7 +119,7 @@ const Vehicles = () => {
         return (<div className={'p-0 m-0'}>{date.toLocaleDateString()} </div>)
     }
     const getDrivers = () => {
-        axios.get('http://localhost:8081/getVehicles')
+        axios.get(`${baseUrl}/getVehicles`)
             .then((response) => {
                 setVehicles(response.data)
                 console.log(Vehicles)
@@ -146,7 +147,7 @@ const Vehicles = () => {
     </div>);
     useEffect(() => {
         getDrivers()
-    }, []);
+    });
 
     return (<div className={'container-fluid'}>
         <Header title={'Vehicles Report'}/>

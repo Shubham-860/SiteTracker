@@ -11,6 +11,7 @@ import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';
 import {FilterMatchMode} from 'primereact/api';
 import Header from "../../utils/Header";
+import {baseUrl} from "../../utils/baseUrl";
 
 const Drivers = () => {
     const [drivers, setDrivers] = useState([]);
@@ -92,7 +93,7 @@ const Drivers = () => {
     const deleteField = async (id) => {
         // alert(id)
         try {
-            await axios.delete('http://localhost:8081/deleteDriver/' + Number(id))
+            await axios.delete(`${baseUrl}/deleteDriver/` + Number(id))
                 .then(res => {
                     console.log('res')
                     console.log(res)
@@ -126,7 +127,7 @@ const Drivers = () => {
         return (<div className={'p-0 m-0 text-center'}>{date.toLocaleDateString()} </div>)
     }
     const getDrivers = () => {
-        axios.get('http://localhost:8081/getDrivers')
+        axios.get(`${baseUrl}/getDrivers`)
             .then((response) => {
                 setDrivers(response.data)
                 console.log(drivers)
@@ -155,7 +156,7 @@ const Drivers = () => {
 
     useEffect(() => {
         getDrivers()
-    }, []);
+    });
 
     return (<div className={'container-fluid'}>
             <Header title={'Drivers Report'}/>
