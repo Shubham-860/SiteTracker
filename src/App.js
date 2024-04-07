@@ -69,12 +69,11 @@ function App() {
                         <>
                             <Route path="/" element={<Login update={updateUser} showSuccess={showSuccess}/>}/>
                             <Route path="/login" element={<Login/>} update={updateUser} showSuccess={showSuccess}/>
-                            <Route path="/*" element={<Navigate to="/" />} />
+                            <Route path="/*" element={<Navigate to="/"/>}/>
 
                         </>
                     ) : (
                         <>
-
                             <Route path="/" element={<Home/>}/>
                             <Route path="/Home" element={<Home/>}/>
                             <Route path="/SiteRegistration" element={<SiteRegistration/>}/>
@@ -100,7 +99,6 @@ function App() {
                                     <img className={'img-fluid w-auto'} src={Error404} alt={'error 404'}/>
                                 </div>
                             </div>}/>
-
                         </>
                     )}
                 </Routes>
