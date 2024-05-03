@@ -156,7 +156,7 @@ const Payments = () => {
 
     useEffect(() => {
         getAllPayment()
-    });
+    }, []);
 
     return (<div className={'container-fluid'}>
             <Header title={'Payments'}/>

@@ -162,7 +162,7 @@ const Sites = () => {
 
     useEffect(() => {
         getAllPayment()
-    });
+    }, []);
 
     return (<div className={'container-fluid'}>
             <Header title={'Site Information'}/>

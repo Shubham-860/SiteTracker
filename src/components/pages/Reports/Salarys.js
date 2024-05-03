@@ -171,7 +171,7 @@ const Salarys = () => {
 
     useEffect(() => {
         getSalary()
-    });
+    }, []);
 
     return (<div className={'container-fluid'}>
             <Header title={'Drivers Salary'}/>

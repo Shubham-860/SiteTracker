@@ -157,7 +157,7 @@ const Diesel = () => {
 
     useEffect(() => {
         getDieselPurchase()
-    });
+    }, []);
 
     return (<div className={'container-fluid'}>
             <Header title={'Diesel Purchase'}/>

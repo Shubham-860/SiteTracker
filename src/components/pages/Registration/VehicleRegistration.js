@@ -61,7 +61,7 @@ const VehicleRegistration = () => {
                 console.log(drivers)
             })
             .then(error => console.log(error))
-    });
+    }, []);
     return (
         <>
             <Header title={'Vehicle Registration'}/>

@@ -156,7 +156,7 @@ const Drivers = () => {
 
     useEffect(() => {
         getDrivers()
-    });
+    }, []);
 
     return (<div className={'container-fluid'}>
             <Header title={'Drivers Report'}/>

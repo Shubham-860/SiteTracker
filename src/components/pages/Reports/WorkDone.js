@@ -155,7 +155,7 @@ const WorkDone = () => {
     </div>);
     useEffect(() => {
         getWorkDone()
-    });
+    }, []);
     return (<div className={'container-fluid'}>
             <Header title={'work Done Report'}/>
             <Toast ref={toast}/>

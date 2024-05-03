@@ -147,7 +147,7 @@ const Vehicles = () => {
     </div>);
     useEffect(() => {
         getDrivers()
-    });
+    }, []);
 
     return (<div className={'container-fluid'}>
         <Header title={'Vehicles Report'}/>
