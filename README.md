@@ -8,6 +8,14 @@ SiteTracker is a React app that monitors website uptime and response times, disp
 
 ## Demo / Screenshots
 
+<p align="center">
+  <img src="./src/assects/img/Login.png" alt="Login Screen" width="150" />
+  <img src="./src/assects/img/Sidebar.png" alt="Sidebar Screen" width="150" />
+  <img src="./src/assects/img/Picture3.png" alt="Add Record Screen" width="150" />
+  <img src="./src/assects/img/Picture5.png" alt="All Records Screen" width="150" />
+</p>
+
+
 ## Features
 
 * User registration and authentication
