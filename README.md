@@ -1,4 +1,4 @@
-# README for SiteTracker (Frontend)
+# SiteTracker (Frontend)
 
 > **Note:** This frontend works with the [SiteTracker\_backend API](https://github.com/Shubham-860/SiteTracker_backend). Run the backend first.
 
@@ -35,7 +35,7 @@ SiteTracker is a React app that monitors website uptime and response times, disp
 ### Prerequisites
 
 * Node.js ≥ 14
-* npm or yarn
+* npm 
 * Running SiteTracker\_backend API
 
 ### Installation & Run
@@ -66,7 +66,7 @@ SiteTracker/
 
 ## Contributing
 
-1. Fork repo
+1. Fork the repo
 2. `git checkout -b feature/YourFeature`
 3. \`git commit -m "Add feature"
 4. `git push origin feature/YourFeature`
